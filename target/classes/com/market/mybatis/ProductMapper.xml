@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Product">
+
+	<resultMap type="Product" id="categoryJoin">
+		<id column="product_id" property="product_id"/>
+		<result column="title" property="title"/>
+		<result column="price" property="price"/>
+		<result column="content" property="content"/>
+		<result column="hit" property="hit"/>
+		<result column="first_regdate" property="first_regdate"/>
+		<result column="re_regdate" property="re_regdate"/>
+		<association column="category_id" javaType="Category" property="category" select="Category.select"/>
+	</resultMap>
+	
+	<select id="selectAll" resultMap="categoryJoin" >
+		select * from product order by product_id desc
+	</select>
+	
+	<select id="select" resultMap="categoryJoin">
+		select * from product
+		where product_id=#{product_id}
+	</select>
+	
+	<insert id="insert" parameterType="Product">
+		insert into product(product_id, category_id, title, price, content)
+		values(seq_product.nextval, #{category.category_id}, #{title}, #{price}, #{content})
+	</insert>
+	
+	<!-- re_regdate 항목을 제외한 모든 컬럼 업데이트 -->
+	<update id="update" parameterType="Product">
+		update product set category_id=#{category.category_id}, title=#{title}, price=#{price}, content=#{content}
+		where product_id=#{product_id}
+	</update>
+	
+	<!-- re_regdate 항목만 수정 -->
+	<update id="update_re_regdate" parameterType="Product">
+		update product set re_regdate=#{re_regdate}
+		where product_id=#{product_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from product 
+		where product_id=#{product_id}
+	</delete>
+</mapper>

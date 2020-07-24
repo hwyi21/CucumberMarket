@@ -4,10 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		
+		<typeAlias type="com.market.domain.BookmarkProduct" alias="BookmarkProduct"/>
+		<typeAlias type="com.market.domain.Category" alias="Category"/>
+		<typeAlias type="com.market.domain.Member" alias="Member"/>
+		<typeAlias type="com.market.domain.Order" alias="Order"/>
+		<typeAlias type="com.market.domain.Product" alias="Product"/>
+		<typeAlias type="com.market.domain.ProductImage" alias="ProductImage"/>
+		<typeAlias type="com.market.domain.State" alias="State"/>
 	</typeAliases>
 	<mappers>
-		
+		<mapper resource="com/market/mybatis/BookmarkProductMapper.xml"/>
+		<mapper resource="com/market/mybatis/CategoryMapper.xml"/>
+		<mapper resource="com/market/mybatis/MemberMapper.xml"/>
+		<mapper resource="com/market/mybatis/OrderMapper.xml"/>
+		<mapper resource="com/market/mybatis/ProductMapper.xml"/>
+		<mapper resource="com/market/mybatis/ProductImageMapper.xml"/>
+		<mapper resource="com/market/mybatis/StateMapper.xml"/>
 	</mappers>
 	
 </configuration>
