@@ -16,7 +16,9 @@ public class RemainLog {
 	// 출력레벨 trace < debug < info < error < fatal
 	Logger logger;
 	FileInputStream fis;
-	String path = "F:/lastProject/CucumberMarket/src/com/market/log/log4j.properties";
+	String filePath = this.getClass().getResource("").getPath();
+
+	String path = filePath+"log4j.properties";
 	Properties props;
 
 	public RemainLog() {
@@ -24,7 +26,6 @@ public class RemainLog {
 
 		try {
 			fis = new FileInputStream(path);
-			System.out.println("파일 찾기 성공");
 			props = new Properties();
 			props.load(fis);
 			// 로거에 설정파일 인식 시키기
