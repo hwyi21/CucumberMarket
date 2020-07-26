@@ -1,5 +1,9 @@
+<%@page import="com.market.domain.Category"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%
+	List<Category> categoryList = (List)request.getAttribute("categoryList");
+%>
 <!DOCTYPE HTML>
 <!--
 	Editorial by HTML5 UP
@@ -13,6 +17,14 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
 <%@ include file="/include/common.jsp"%>
+<style>
+.category_icon{
+	width:inherit;
+	max-width:50%;
+	height:auto;
+	margin-top:22%;
+}
+</style>
 </head>
 <body class="is-preload">
 
@@ -45,7 +57,7 @@
 							<li><a href="#" class="button big">Learn More</a></li>
 						</ul>
 					</div>
-					<span class="image object"> <img src="images/1.jpg" alt="" />
+					<span class="image object"><img src="images/1.jpg" alt="" />
 					</span>
 				</section>
 
@@ -55,42 +67,17 @@
 						<h2>Category</h2>
 					</header>
 					<div class="features">
+						<%for(int i=0; i<categoryList.size();i++){ %>
+						<%Category category=categoryList.get(i); %>
 						<article>
-							<span class="icon fa-gem"></span>
+							<span class="icon" ><img class="category_icon" src="/images/icon/<%=category.getCategory_image()%>"></span>
 							<div class="content">
-								<h3>Portitor ullamcorper</h3>
-								<p>Aenean ornare velit lacus, ac varius enim lorem
-									ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-									nulla amet lorem feugiat tempus aliquam.</p>
+								<h3><%=category.getCategory_name()%></h3>
+								
 							</div>
 						</article>
-						<article>
-							<span class="icon solid fa-paper-plane"></span>
-							<div class="content">
-								<h3>Sapien veroeros</h3>
-								<p>Aenean ornare velit lacus, ac varius enim lorem
-									ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-									nulla amet lorem feugiat tempus aliquam.</p>
-							</div>
-						</article>
-						<article>
-							<span class="icon solid fa-rocket"></span>
-							<div class="content">
-								<h3>Quam lorem ipsum</h3>
-								<p>Aenean ornare velit lacus, ac varius enim lorem
-									ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-									nulla amet lorem feugiat tempus aliquam.</p>
-							</div>
-						</article>
-						<article>
-							<span class="icon solid fa-signal"></span>
-							<div class="content">
-								<h3>Sed magna finibus</h3>
-								<p>Aenean ornare velit lacus, ac varius enim lorem
-									ullamcorper dolore. Proin aliquam facilisis ante interdum. Sed
-									nulla amet lorem feugiat tempus aliquam.</p>
-							</div>
-						</article>
+						<%} %>
+						
 					</div>
 				</section>
 
