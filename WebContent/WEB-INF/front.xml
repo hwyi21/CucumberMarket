@@ -45,5 +45,14 @@
 			</bean>
 		</mvc:message-converters>
 	</mvc:annotation-driven>
+	<!-- 공통 코드로 사용될 Aspect 등록 -->
+	<bean id="remainLog" class="com.market.log.RemainLog"/>
 	
+	<!-- aop -->
+	<aop:config>
+		<aop:aspect ref="remainLog">
+			<aop:pointcut expression="execution(public * com.market.controller..*(..))" id="controllerPointcut"/>
+			<aop:before method="showMessage" pointcut-ref="controllerPointcut"/>
+		</aop:aspect>
+	</aop:config>
 </beans>
