@@ -11,7 +11,13 @@ public class MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
 
+	//회원가입
 	public void insert(Member member) throws DMLException {
 		memberDAO.insert(member);
+	}
+
+	//로그인
+	public Member loginCheck(Member member) throws DMLException {
+		return memberDAO.loginCheck(member);
 	}
 }
