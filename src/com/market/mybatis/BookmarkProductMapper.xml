@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BookmarkProduct">
+
+	<resultMap type="BookmarkProduct" id="joinMap">
+		<id column="bookmark_product_id" property="bookmark_product_id"/>
+		<association column="member_id" property="member" javaType="Member" select="Member.select"/>
+		<association column="product_id" property="product" javaType="Product" select="Product.select"/>
+	</resultMap>
+	
+	<select id="selectAll" resultMap="joinMap">
+		select * from bookmark_product 
+		where member_id=#{member.member_id}
+	</select>
+	
+	<insert id="insert" parameterType="BookmarkProduct">
+		insert into bookmark_product(bookmark_product_id, member_id, product_id)
+		values(seq_bookmark_product.nextval, #{member.member_id}, #{product.product_id})
+	</insert>
+	
+	<delete id="delete" parameterType="int">
+		delete from bookmark_product
+		where bookmark_product_id=#{bookmark_product_id}
+	</delete>
 </mapper>
