@@ -13,7 +13,7 @@ public class MemberDAO {
 	private SqlSessionTemplate sessionTemplate;
 	
 	// 회원가입
-	public void insert(Member member) throws DMLException {
+	public void insert(Member member) throws DMLException{
 		int result = sessionTemplate.insert("Member.insert", member);
 		if (result == 0) {
 			throw new DMLException("회원가입에 실패하였습니다. 관리자에 문의하세요");

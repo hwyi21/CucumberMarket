@@ -50,6 +50,14 @@
 }
 </style>
 <script>
+function validate(){
+	if(form1.id.value==""||form1.password.value==""){
+		alert("정확한 정보를 입력해주세요");
+		return;
+	}
+	regist();
+}
+
 function regist(){
 	form1.method="post";
 	form1.action="/member/regist";
@@ -74,10 +82,10 @@ function regist(){
 				<form name="form1">
 					<div class="row gtr-uniform">
 						<div class="col-6 col-12-xsmall">
-							<input type="text" name="id" placeholder="ID" />
+							<input type="text" name="id" placeholder="ID" value=""/>
 						</div>
 						<div class="col-6 col-12-xsmall">
-							<input type="password" name="password" placeholder="Password" />
+							<input type="password" name="password" placeholder="Password" value=""/>
 						</div>
 						
 						<div><strong> 위치를 확인해주세요! 현재 위치가 지도에 표시된 곳과 다르다면 지도를 움직여 현재위치를 알맞게 표시해주세요~<br>
@@ -87,14 +95,14 @@ function regist(){
 								style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
 							<div class="hAddr">
 								<span class="title">지도중심기준 행정동 주소정보</span> <span id="centerAddr" ></span>
-								<input type="hidden" name="locate" id="locate" value="메롱">
+								<input type="hidden" name="locate" id="locate" value="locate">
 							</div>
 						</div>
 
 						<!-- Break -->
 						<div class="col-12">
 							<ul class="actions">
-								<li><input type="submit" value="회원가입" class="primary" onClick="regist()"/></li>
+								<li><input type="button" value="회원가입" class="primary" onclick="validate()"/></li>
 								<li><input type="reset" value="Reset" /></li>
 							</ul>
 						</div>
@@ -217,5 +225,6 @@ function regist(){
 			}
 		}
 	}
+	
 </script>
 </html>

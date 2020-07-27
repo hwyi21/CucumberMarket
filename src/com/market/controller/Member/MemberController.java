@@ -24,7 +24,7 @@ public class MemberController {
 	public String regist(Model model, Member member) {
 		memberService.insert(member);
 		model.addAttribute("msg", "회원가입 성공!");
-		model.addAttribute("url", "/");
+		model.addAttribute("url", "/member/loginForm.jsp");
 
 		return "view/message";
 	}
