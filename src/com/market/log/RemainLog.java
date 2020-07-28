@@ -8,12 +8,8 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-/*
- * ·Î±×¸¦ Àü¹®ÀûÀ¸·Î Ã³¸®ÇØÁÖ´Â ¿ÀÇÂ¼Ò½º Áø¿µÀÇ ¶óÀÌºê·¯¸®
- * log4j(¾Èµå·ÎÀÌµå¿¡¼­µµ »ç¿ë)
- * */
 public class RemainLog {
-	// Ãâ·Â·¹º§ trace < debug < info < error < fatal
+	// ì¶œë ¥ë ˆë²¨ trace < debug < info < error < fatal
 	Logger logger;
 	FileInputStream fis;
 	String filePath = this.getClass().getResource("").getPath();
@@ -28,7 +24,7 @@ public class RemainLog {
 			fis = new FileInputStream(path);
 			props = new Properties();
 			props.load(fis);
-			// ·Î°Å¿¡ ¼³Á¤ÆÄÀÏ ÀÎ½Ä ½ÃÅ°±â
+			// ë¡œê±°ì— ì„¤ì •íŒŒì¼ ì¸ì‹ ì‹œí‚¤ê¸°
 			PropertyConfigurator.configure(props);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -38,11 +34,11 @@ public class RemainLog {
 	}
 
 	public void showMessage() {
-			logger.trace("Ãâ·Â");
-			logger.debug("Ãâ·Â");
-			logger.info("»óÅÂ³ª Á¤º¸ Ãâ·Â");
-			logger.error("¿¡·¯");
-			logger.fatal("Ä¡¸íÀû ¿¡·¯");
+			logger.trace("ì¶œë ¥");
+			logger.debug("ì¶œë ¥");
+			logger.info("ìƒíƒœë‚˜ ì •ë³´ ì¶œë ¥");
+			logger.error("ì—ëŸ¬");
+			logger.fatal("ì¹˜ëª…ì  ì—ëŸ¬");
 
 	}
 

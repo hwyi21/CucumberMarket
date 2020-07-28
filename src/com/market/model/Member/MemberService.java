@@ -11,12 +11,12 @@ public class MemberService {
 	@Autowired
 	private MemberDAO memberDAO;
 
-	//È¸¿ø°¡ÀÔ
+	//íšŒì›ê°€ì…
 	public void insert(Member member) throws DMLException {
 		memberDAO.insert(member);
 	}
 
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸
 	public Member loginCheck(Member member) throws DMLException {
 		return memberDAO.loginCheck(member);
 	}

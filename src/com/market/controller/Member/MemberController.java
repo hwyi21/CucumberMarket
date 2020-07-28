@@ -19,44 +19,44 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
-	//È¸¿ø°¡ÀÔ
+	//íšŒì›ê°€ì…
 	@RequestMapping(value = "/member/regist", method = RequestMethod.POST)
 	public String regist(Model model, Member member) {
 		memberService.insert(member);
-		model.addAttribute("msg", "È¸¿ø°¡ÀÔ ¼º°ø!");
+		model.addAttribute("msg", "íšŒì›ê°€ì… ì„±ê³µ!");
 		model.addAttribute("url", "/member/loginForm.jsp");
 
 		return "view/message";
 	}
 
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸
 	@RequestMapping(value="/member/login", method=RequestMethod.POST)
 	public String loginCheck(Member member, HttpServletRequest request) {
 		Member result = memberService.loginCheck(member);
 
-		//·Î±×ÀÎ ¼º°ø½Ã ¼¼¼Ç À¯Áö
+		//ë¡œê·¸ì¸ ì„±ê³µì‹œ ì„¸ì…˜ ìœ ì§€
 		HttpSession session=request.getSession();
-		session.setAttribute("member", result); //È¸¿ø Á¤º¸ ÀúÀå!
+		session.setAttribute("member", result); //íšŒì› ì •ë³´ ì €ì¥!
 		
 		return "redirect:/";
 	}
 	
-	//·Î±×¾Æ¿ô
+	//ë¡œê·¸ì•„ì›ƒ
 	@RequestMapping(value = "/member/logout", method = RequestMethod.GET)
 	public String logout(Model model, HttpSession session) {
-		//ÇöÀç Å¬¶óÀÌ¾ğÆ®¿Í °ü·ÃµÈ ¼¼¼Ç ¹«È¿È­
+		//í˜„ì¬ í´ë¼ì´ì–¸íŠ¸ì™€ ê´€ë ¨ëœ ì„¸ì…˜ ë¬´íš¨í™”
 		session.invalidate(); 
 
-		model.addAttribute("msg", "·Î±×¾Æ¿ô µÇ¾ú½À´Ï´Ù.");
+		model.addAttribute("msg", "ë¡œê·¸ì•„ì›ƒ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		model.addAttribute("url", "/");
 		return "view/message";
 	}
 
-	// ¿¹¿Ü Ã³¸®
+	// ì˜ˆì™¸ ì²˜ë¦¬
 	@ExceptionHandler(DMLException.class)
 	public String handle(Model model, DMLException e) {
-		model.addAttribute("e", e);// ¿¡·¯ °´Ã¼ ÀÚÃ¼¸¦ ´ã´Â´Ù!!
-		model.addAttribute("msg", e.getMessage());// ¿¡·¯ °´Ã¼ ÀÚÃ¼¸¦ ´ã´Â´Ù!!
+		model.addAttribute("e", e);// ì—ëŸ¬ ê°ì²´ ìì²´ë¥¼ ë‹´ëŠ”ë‹¤!!
+		model.addAttribute("msg", e.getMessage());// ì—ëŸ¬ ê°ì²´ ìì²´ë¥¼ ë‹´ëŠ”ë‹¤!!
 		return "view/error";
 	}
 }

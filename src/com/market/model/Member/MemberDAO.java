@@ -12,19 +12,19 @@ public class MemberDAO {
 	@Autowired
 	private SqlSessionTemplate sessionTemplate;
 	
-	// È¸¿ø°¡ÀÔ
+	// íšŒì›ê°€ì…
 	public void insert(Member member) throws DMLException{
 		int result = sessionTemplate.insert("Member.insert", member);
 		if (result == 0) {
-			throw new DMLException("È¸¿ø°¡ÀÔ¿¡ ½ÇÆĞÇÏ¿´½À´Ï´Ù. °ü¸®ÀÚ¿¡ ¹®ÀÇÇÏ¼¼¿ä");
+			throw new DMLException("íšŒì›ê°€ì…ì— ì‹¤íŒ¨í•˜ì˜€ìŠµë‹ˆë‹¤. ê´€ë¦¬ìì— ë¬¸ì˜í•˜ì„¸ìš”");
 		}
 	}
 	
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸
 	public Member loginCheck(Member member) throws DMLException {
 		Member obj = sessionTemplate.selectOne("Member.loginCheck", member);
-		if (obj == null) {// È¸¿øÀÌ ¾øÀ» °æ¿ì, ºñÁî´Ï½ºÀû ¿¡·¯»óÈ²À¸·Î °£ÁÖ
-			throw new DMLException("·Î±×ÀÎ Á¤º¸°¡ ¿Ã¹Ù¸£Áö ¾Ê½À´Ï´Ù.");
+		if (obj == null) {// íšŒì›ì´ ì—†ì„ ê²½ìš°, ë¹„ì¦ˆë‹ˆìŠ¤ì  ì—ëŸ¬ìƒí™©ìœ¼ë¡œ ê°„ì£¼
+			throw new DMLException("ë¡œê·¸ì¸ ì •ë³´ê°€ ì˜¬ë°”ë¥´ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 		}
 		return obj;
 	}

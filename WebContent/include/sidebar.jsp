@@ -17,9 +17,9 @@
 			</header>
 			<ul>
 				<li><a href="/">Homepage</a></li>
-				<li><a href="generic.html">Generic</a></li>
-				<li><a href="elements.html">Elements</a></li>
-				<li><span class="opener">Submenu</span>
+				<li><a href="generic.html">우리동네 중고물품</a></li>
+				<li><a href="/product/registForm.jsp">상품등록</a></li>
+				<li><span class="opener">submenu</span>
 					<ul>
 						<li><a href="#">Lorem Dolor</a></li>
 						<li><a href="#">Ipsum Adipiscing</a></li>
