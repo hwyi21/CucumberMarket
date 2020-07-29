@@ -12,7 +12,6 @@
 <meta charset="utf-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
-<%@ include file="/include/common.jsp"%>
 <style>
 .map_wrap {
 	position: relative;
@@ -49,6 +48,7 @@
 	white-space: nowrap;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 	var gfv_count = 1;
 	$(function() {
@@ -171,6 +171,7 @@
 
 		<%@ include file="/include/sidebar.jsp"%>
 	</div>
+	<%@ include file="/include/common.jsp"%>
 
 </body>
 

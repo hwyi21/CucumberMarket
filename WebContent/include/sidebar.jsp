@@ -1,16 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<!-- Sidebar -->
+ <!-- Sidebar -->
 <div id="sidebar">
 	<div class="inner">
 
-		<!-- Search -->
+		
 		<section id="search" class="alt">
 			<form method="post" action="#">
 				<input type="text" name="query" id="query" placeholder="Search" />
 			</form>
 		</section>
 
-		<!-- Menu -->
+		Menu
 		<nav id="menu">
 			<header class="major">
 				<h2>Menu</h2>
@@ -42,7 +42,7 @@
 		</nav>
 
 
-		<!-- Section -->
+		Section
 		<section>
 			<header class="major">
 				<h2>Get in touch</h2>
@@ -60,7 +60,7 @@
 			</ul>
 		</section>
 
-		<!-- Footer -->
+		Footer
 		<footer id="footer">
 			<p class="copyright">
 				&copy; Untitled. All rights reserved. Demo Images: <a
@@ -70,4 +70,5 @@
 		</footer>
 
 	</div>
-</div>
+	
+</div> 

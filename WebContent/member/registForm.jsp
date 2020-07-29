@@ -12,7 +12,7 @@
 <meta charset="utf-8" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, user-scalable=no" />
-<%@ include file="/include/common.jsp"%>
+
 <style>
 .map_wrap {
 	position: relative;
@@ -49,6 +49,7 @@
 	white-space: nowrap;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 function validate(){
 	if(form1.id.value==""||form1.password.value==""){
@@ -113,7 +114,7 @@ function regist(){
 
 		<%@ include file="/include/sidebar.jsp"%>
 	</div>
-
+	<%@ include file="/include/common.jsp"%>
 </body>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=a2bdeae7d2fc038a9600d2f5d0d610ef&libraries=services"></script>
 <script>
