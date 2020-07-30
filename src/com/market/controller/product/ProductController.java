@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.market.domain.Member;
+import com.market.domain.OrderDetail;
 import com.market.domain.Product;
 import com.market.domain.ProductImage;
 import com.market.model.product.ProductService;
@@ -26,10 +28,13 @@ public class ProductController {
 	
 	//상품 등록
 	@RequestMapping(value = "/product/regist", method = RequestMethod.POST)
-	public ModelAndView regist(Product product, ProductImage productImage, HttpServletRequest request) {
+	public ModelAndView regist(Product product, ProductImage productImage, OrderDetail orderDetail, HttpServletRequest request) {
 		HttpSession session=request.getSession();
-		productService.insert(product, productImage, request, request.getServletContext().getRealPath("/data/"));
-
+		//주문요약 정보 중 누가 샀는지를 결정!!
+		Member member = (Member)session.getAttribute("member");
+		orderDetail.setMember(member);
+		productService.insert(product, productImage, orderDetail, request, request.getServletContext().getRealPath("/data/"));
+		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("url", "/");
 		mav.addObject("msg", "등록 성공");

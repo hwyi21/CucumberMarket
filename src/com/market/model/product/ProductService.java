@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.market.domain.OrderDetail;
 import com.market.domain.Product;
 import com.market.domain.ProductImage;
 import com.market.exception.DMLException;
@@ -21,15 +22,19 @@ public class ProductService {
 
 	@Autowired
 	private ProductImageDAO productImageDAO;
+	
+	@Autowired
+	private OrderDetailDAO orderDetailDAO;
 
 	public List selectAll() {
 		return productDAO.selectAll();
 	}
 
-	public void insert(Product product, ProductImage productImage, HttpServletRequest request, String realPath)
+	public void insert(Product product, ProductImage productImage, OrderDetail orderDetail, HttpServletRequest request, String realPath)
 			throws DMLException, FileException {
 		productDAO.insert(product);
 		productImage.setProduct(product);
+		orderDetail.setProduct(product);
 		List<Map<String,Object>> list = FileManager.saveFile(request, realPath);
 		for (int i = 0; i < list.size(); i++) {
 			String original_filename = (String) list.get(i).get("original_filename");
@@ -38,7 +43,7 @@ public class ProductService {
 			productImage.setFilename(filename);
 			productImageDAO.insert(productImage);
 		}
-
+		orderDetailDAO.insert(orderDetail);
 	}
 
 }
