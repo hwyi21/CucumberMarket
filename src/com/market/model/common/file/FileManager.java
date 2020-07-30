@@ -39,8 +39,8 @@ public class FileManager {
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
 		Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
 		MultipartFile multipartFile = null;
-		List<String> list = new ArrayList<String>();
-		String newFilename=null;
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>(); 
+		Map<String, Object> listMap = null;
 		while (iterator.hasNext()) {
 			multipartFile = multipartHttpServletRequest.getFile(iterator.next());
 			if (multipartFile.isEmpty() == false) {	
@@ -59,9 +59,10 @@ public class FileManager {
 					flag=false;
 					e.printStackTrace();
 				} 
-				
-				newFilename = dest.getName();
-				list.add(newFilename); 
+				listMap = new HashMap<String,Object>(); 
+				listMap.put("original_filename", ori);
+				listMap.put("filename", dest.getName()); 
+				list.add(listMap); 
 				}
 			
 			}

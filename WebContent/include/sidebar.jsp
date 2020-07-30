@@ -10,15 +10,15 @@
 			</form>
 		</section>
 
-		Menu
+		
 		<nav id="menu">
 			<header class="major">
 				<h2>Menu</h2>
 			</header>
 			<ul>
 				<li><a href="/">Homepage</a></li>
-				<li><a href="generic.html">우리동네 중고물품</a></li>
-				<li><a href="/product/registForm.jsp">상품등록</a></li>
+				<li><a href="/generic.html">우리동네 중고물품</a></li>
+				<li><a href="/product/registForm">상품등록</a></li>
 				<li><span class="opener">submenu</span>
 					<ul>
 						<li><a href="#">Lorem Dolor</a></li>
@@ -42,7 +42,7 @@
 		</nav>
 
 
-		Section
+	
 		<section>
 			<header class="major">
 				<h2>Get in touch</h2>
@@ -60,7 +60,7 @@
 			</ul>
 		</section>
 
-		Footer
+		
 		<footer id="footer">
 			<p class="copyright">
 				&copy; Untitled. All rights reserved. Demo Images: <a

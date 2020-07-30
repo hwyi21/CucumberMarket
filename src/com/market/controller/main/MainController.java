@@ -2,6 +2,8 @@ package com.market.controller.main;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +18,7 @@ public class MainController {
 	private CategoryService categoryService;
 	
 	@RequestMapping(value="/", method=RequestMethod.GET)
-	public String test(Model model) {
+	public String test(Model model, HttpServletRequest request) {
 		List categoryList = categoryService.selectAll();
 		model.addAttribute("categoryList", categoryList);
 		return "main";

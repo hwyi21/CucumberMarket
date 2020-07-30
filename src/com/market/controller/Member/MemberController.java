@@ -32,11 +32,11 @@ public class MemberController {
 	//로그인
 	@RequestMapping(value="/member/login", method=RequestMethod.POST)
 	public String loginCheck(Member member, HttpServletRequest request) {
-		Member result = memberService.loginCheck(member);
+		Member obj = memberService.loginCheck(member);
 
 		//로그인 성공시 세션 유지
 		HttpSession session=request.getSession();
-		session.setAttribute("member", result); //회원 정보 저장!
+		session.setAttribute("member", obj); //회원 정보 저장!
 		
 		return "redirect:/";
 	}
@@ -52,11 +52,4 @@ public class MemberController {
 		return "view/message";
 	}
 
-	// 예외 처리
-	@ExceptionHandler(DMLException.class)
-	public String handle(Model model, DMLException e) {
-		model.addAttribute("e", e);// 에러 객체 자체를 담는다!!
-		model.addAttribute("msg", e.getMessage());// 에러 객체 자체를 담는다!!
-		return "view/error";
-	}
 }

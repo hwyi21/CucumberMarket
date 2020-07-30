@@ -6,6 +6,7 @@ public class ProductImage {
 	private int image_id;
 	private Product product;
 	private String filename;
+	private String original_filename;
 	private MultipartFile myFile;
 	public int getImage_id() {
 		return image_id;
@@ -25,11 +26,17 @@ public class ProductImage {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+	public String getOriginal_filename() {
+		return original_filename;
+	}
+	public void setOriginal_filename(String original_filename) {
+		this.original_filename = original_filename;
+	}
 	public MultipartFile getMyFile() {
 		return myFile;
 	}
 	public void setMyFile(MultipartFile myFile) {
 		this.myFile = myFile;
 	}
-	
+
 }

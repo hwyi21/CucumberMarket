@@ -1,6 +1,7 @@
 package com.market.model.product;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,9 +30,11 @@ public class ProductService {
 			throws DMLException, FileException {
 		productDAO.insert(product);
 		productImage.setProduct(product);
-		List newFileName = FileManager.saveFile(request, realPath);
-		for (int i = 0; i < newFileName.size(); i++) {
-			String filename = (String) newFileName.get(i);
+		List<Map<String,Object>> list = FileManager.saveFile(request, realPath);
+		for (int i = 0; i < list.size(); i++) {
+			String original_filename = (String) list.get(i).get("original_filename");
+			String filename = (String) list.get(i).get("filename");
+			productImage.setOriginal_filename(original_filename);
 			productImage.setFilename(filename);
 			productImageDAO.insert(productImage);
 		}

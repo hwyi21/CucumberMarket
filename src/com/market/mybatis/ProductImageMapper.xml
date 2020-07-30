@@ -14,8 +14,8 @@
 	</select>
 	
 	<insert id="insert" parameterType="ProductImage">
-		insert into product_image(image_id, product_id, filename)
-		values(seq_product_image.nextval, #{product.product_id}, #{filename})
+		insert into product_image(image_id, product_id, filename, original_filename)
+		values(seq_product_image.nextval, #{product.product_id}, #{filename}, #{original_filename})
 	</insert>
 	
 	<delete id="delete" parameterType="int">

@@ -50,7 +50,7 @@
 	<!-- 공통 코드로 사용될 Aspect 등록 -->
 	<bean id="remainLog" class="com.market.log.RemainLog"/>
 	
-	<!-- aop -->
+	<!-- 로그 -->
 	<aop:config>
 		<aop:aspect ref="remainLog">
 			<aop:pointcut expression="execution(public * com.market.controller..*(..))" id="controllerPointcut"/>
@@ -58,5 +58,17 @@
 		</aop:aspect>
 	</aop:config>
 	
+	<!-- 로그인 세션 체크-->
+	<bean id="sessionCheckAspect" class="com.market.aop.MemberSessionCheckAspect"/>
+	
+	<aop:config>
+		<aop:aspect ref="sessionCheckAspect">
+			<aop:pointcut expression="execution(public * com.market.controller.product.ProductController.*(..))" id="methodPointcut"/>
+			<aop:around method="sessionCheck" pointcut-ref="methodPointcut"/>
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- 예외처리 핸들러 -->
+	<bean class="com.market.controller.common.GlobalExceptionHandler"/>
 	
 </beans>
