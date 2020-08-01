@@ -27,7 +27,7 @@ public class MemberSessionCheckAspect {
       }
       String uri = request.getRequestURI();
       
-      if(uri.equals("/product")) {
+      if(uri.equals("/product/category")) {
          result=joinPoint.proceed();
       }else {
          if(request != null) { 

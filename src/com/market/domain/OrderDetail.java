@@ -1,6 +1,6 @@
 package com.market.domain;
 
-public class Order {
+public class OrderDetail {
 	private int order_id;
 	private State state;
 	private Product product;

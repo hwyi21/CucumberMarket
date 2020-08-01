@@ -1515,13 +1515,13 @@ button,
   input[type="button"]:hover,
   button:hover,
   .button:hover {
-    background-color: rgba(245, 106, 106, 0.05); }
+    background-color: rgba(0, 112, 26, 0.05); }
   input[type="submit"]:active,
   input[type="reset"]:active,
   input[type="button"]:active,
   button:active,
   .button:active {
-    background-color: rgba(245, 106, 106, 0.15); }
+    background-color: rgba(0, 112, 26, 0.15); }
   input[type="submit"].icon:before,
   input[type="reset"].icon:before,
   input[type="button"].icon:before,
@@ -1748,7 +1748,6 @@ button,
     position: relative;
     width: calc(33.33333% - 6em); }
     .posts article:before {
-      background: rgba(210, 215, 217, 0.75);
       content: '';
       display: block;
       height: calc(100% + 6em);
@@ -1757,14 +1756,13 @@ button,
       top: 0;
       width: 1px; }
     .posts article:after {
-      background: rgba(210, 215, 217, 0.75);
       bottom: -3em;
       content: '';
       display: block;
       height: 1px;
       position: absolute;
       right: 0;
-      width: calc(100% + 6em); }
+      width: calc(27% + 3em); }
     .posts article > :last-child {
       margin-bottom: 0; }
     .posts article .image {
@@ -1777,7 +1775,7 @@ button,
     .posts article:nth-child(3n + 1):before {
       display: none; }
     .posts article:nth-child(3n + 1):after {
-      width: 100%; }
+      width: 30%; }
     .posts article:nth-last-child(1), .posts article:nth-last-child(2), .posts article:nth-last-child(3) {
       margin-bottom: 0; }
       .posts article:nth-last-child(1):before, .posts article:nth-last-child(2):before, .posts article:nth-last-child(3):before {
@@ -1786,14 +1784,14 @@ button,
         display: none; } }
   @media screen and (max-width: 1680px) {
     .posts article {
-      width: calc(50% - 6em); }
+      width: calc(27% - 3em); }
       .posts article:nth-last-child(3) {
         margin-bottom: 6em; } }
   @media screen and (min-width: 481px) and (max-width: 1680px) {
     .posts article:nth-child(2n + 1):before {
       display: none; }
     .posts article:nth-child(2n + 1):after {
-      width: 100%; }
+      width: 27%; }
     .posts article:nth-last-child(1), .posts article:nth-last-child(2) {
       margin-bottom: 0; }
       .posts article:nth-last-child(1):before, .posts article:nth-last-child(2):before {

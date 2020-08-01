@@ -8,7 +8,7 @@
 		<association column="product_id" property="product" javaType="Product" select="Product.select"/>
 	</resultMap>
 	
-	<select id="selectAll" resultMap="joinProduct">
+	<select id="selectAll" parameterType="int" resultMap="joinProduct">
 		select * from product_image
 		where product_id=#{product.product_id}
 	</select>

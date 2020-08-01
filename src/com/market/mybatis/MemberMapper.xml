@@ -12,7 +12,7 @@
 		values(seq_member.nextval, #{id}, #{password}, #{locate})
 	</insert>
 	
-	<select id="select" parameterType="int">
+	<select id="select" parameterType="int" resultType="Member">
 		select * from member
 		where member_id=#{member_id}
 	</select>

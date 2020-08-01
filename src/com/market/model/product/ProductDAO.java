@@ -14,8 +14,14 @@ public class ProductDAO {
 	@Autowired
 	private SqlSessionTemplate sessionTemplate;
 	
+	// 모든 상품 조회
 	public List selectAll() {
 		return sessionTemplate.selectList("Product.selectAll");
+	}
+	
+	// 로그인한 유저와 같은 지역의 상품 조회
+	public List select(int product_id) {
+		return sessionTemplate.selectList("Product.select", product_id);
 	}
 	
 	public void insert(Product product) throws DMLException{
@@ -24,4 +30,6 @@ public class ProductDAO {
 			throw new DMLException("상품이 등록되지 않았습니다");
 		}
 	}
+	
+	
 }

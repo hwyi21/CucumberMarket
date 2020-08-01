@@ -15,14 +15,13 @@
 	</resultMap>
 
 	<select id="selectAll" resultMap="categoryJoin">
-		select * from
-		product order by product_id desc
+		select * from product 
+		order by first_regdate desc
 	</select>
 
-	<select id="select" resultMap="categoryJoin">
+	<select id="select" parameterType="int" resultMap="categoryJoin">
 		select * from product
-		where
-		product_id=#{product_id}
+		where product_id=#{product_id}
 	</select>
 
 	<insert id="insert" parameterType="Product">
