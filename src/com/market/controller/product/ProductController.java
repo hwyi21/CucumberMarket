@@ -103,7 +103,7 @@ public class ProductController {
 	}
 	
 	//상품 삭제 페이지
-	@RequestMapping(value="/product/delete", method=RequestMethod.GET)
+	@RequestMapping(value="/product/delete", method= RequestMethod.POST)
 	public String productDelete(Model model, HttpServletRequest request, @RequestParam int product_id) {
 		String realPath=request.getServletContext().getRealPath("/data/");
 		productService.delete(product_id, request);
@@ -111,6 +111,37 @@ public class ProductController {
 		model.addAttribute("url", "/product");
 		model.addAttribute("msg", "상품이 삭제 되었습니다.");
 		return "view/message";
+	}
+	
+	//상품 수정 페이지
+	@RequestMapping(value="/product/updateForm", method = RequestMethod.GET)
+	public String updateForm(Model model, HttpServletRequest request, @RequestParam int product_id) {
+		HttpSession session=request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		
+		OrderDetail orderDetail = productService.selectDetail(product_id);
+		Product product = orderDetail.getProduct();
+		List productImageList = productImageService.selectAll(product_id);
+		
+		model.addAttribute("product", product);
+		model.addAttribute("productImageList", productImageList);
+		return "product/updateForm";
+	}
+	
+	//상품 수정 페이지
+	@RequestMapping(value="/product/update", method = RequestMethod.POST)
+	public String updateForm(Model model, HttpServletRequest request, Product product, ProductImage productImage) {
+		HttpSession session=request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		System.out.println(product.getProduct_id()+"상품아이디");
+		System.out.println(request.getParameter("re_regdate")+"끌올");
+		//OrderDetail orderDetail = productService.selectDetail(product_id);
+		//Product product = orderDetail.getProduct();
+		//List productImageList = productImageService.selectAll(product_id);
+		
+		//model.addAttribute("product", product);
+		//model.addAttribute("productImageList", productImageList);
+		return null;
 	}
 	
 }

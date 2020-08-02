@@ -110,12 +110,13 @@ img {
 function del(){
 	if(confirm("삭제하시겠습니까?")){
 		$("form").attr({
-			"action":"/product/delete",
+			"action":"/product/delete?product_id="+<%=product.getProduct_id()%>,
 			"method":"post"
 		});
 		$("form").submit();
 	}
 }
+
 </script>
 </head>
 <body class="is-preload">
@@ -131,7 +132,6 @@ function del(){
 				<!-- Content -->
 				<section>
 					<form>
-					<input type="hidden" name="product_id" value="<%=product.getProduct_id()%>"> 
 					<div class="container" style="width:80%; margin-bottom:20px;">
 					<%for(int i=0; i<productImageList.size(); i++){ %>
 					<%ProductImage productImage = productImageList.get(i); %>
@@ -172,7 +172,8 @@ function del(){
 					<%if(member.getMember_id()==saler.getMember_id()){ %>
 						<ul class="actions">
 								<li>
-									<a href="/product/delete?product_id=<%=product.getProduct_id()%>" class="button">삭제</a>
+									<a onclick="del()" class="button">삭제</a>
+									<a href="/product/updateForm?product_id=<%=product.getProduct_id()%>" class="button">수정</a>
 								</li>
 							</ul>
 					<%} %>
