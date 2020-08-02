@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.market.exception.DMLException;
+
 @Service
 public class ProductImageService {
 	@Autowired
@@ -14,5 +16,7 @@ public class ProductImageService {
 	public List selectAll(int product_id) {
 		return productImageDAO.selectAll(product_id);
 	}
+	
+	
 
 }

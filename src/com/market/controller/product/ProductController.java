@@ -8,8 +8,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.market.controller.common.Pager;
@@ -48,7 +50,7 @@ public class ProductController {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("url", "/");
-		mav.addObject("msg", "등록 성공");
+		mav.addObject("msg", "상품이 등록되었습니다.");
 		mav.setViewName("view/message");
 
 		return mav;
@@ -66,8 +68,12 @@ public class ProductController {
 		for(int i=0; i<productList.size();i++) {
 			OrderDetail product = (OrderDetail) productList.get(i);
 			int product_id=product.getProduct().getProduct_id();
-			List list = productImageService.selectAll(product_id);
-			productImageList.add(list);
+			if(product_id==0) {
+				continue;
+			}else {
+				List list = productImageService.selectAll(product_id);
+				productImageList.add(list);
+			}
 		}
 		//페이징 처리 객체 
 		pager.init(productList, request);
@@ -78,5 +84,33 @@ public class ProductController {
 		mav.setViewName("product/main");
 		return mav;
 	}
-
+	
+	//상품 상세 페이지
+	@RequestMapping(value="/product/detail", method = RequestMethod.GET)
+	public String productDetail(Model model, HttpServletRequest request, @RequestParam int product_id) {
+		HttpSession session=request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		
+		OrderDetail orderDetail = productService.selectDetail(product_id);
+		Product product = orderDetail.getProduct();
+		Member saler = orderDetail.getMember();
+		List productImageList = productImageService.selectAll(product_id);
+		
+		model.addAttribute("product", product);
+		model.addAttribute("saler", saler);
+		model.addAttribute("productImageList", productImageList);
+		return "product/detail";
+	}
+	
+	//상품 삭제 페이지
+	@RequestMapping(value="/product/delete", method=RequestMethod.GET)
+	public String productDelete(Model model, HttpServletRequest request, @RequestParam int product_id) {
+		String realPath=request.getServletContext().getRealPath("/data/");
+		productService.delete(product_id, request);
+		
+		model.addAttribute("url", "/product");
+		model.addAttribute("msg", "상품이 삭제 되었습니다.");
+		return "view/message";
+	}
+	
 }

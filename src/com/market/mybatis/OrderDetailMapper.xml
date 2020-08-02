@@ -20,4 +20,16 @@
 		from member, order_detail
 		where member.member_id=order_detail.member_id and member.locate like '%'||#{address}||'%'
 	</select>
+	
+	<select id="select" parameterType="int" resultMap="joinMap">
+		select * 
+		from order_detail
+		where product_id=#{product_id}
+	</select>
+	
+	<!-- 판매자가 등록한 상품 삭제시 판매자 정보를 0으로 바꿈 -->
+	<update id="updateSaler" parameterType="int">
+		update order_detail set member_id=0, product_id=0
+		where product_id=#{product_id} 
+	</update>
 </mapper>

@@ -20,7 +20,7 @@
 	
 	<delete id="delete" parameterType="int">
 		delete from product_image
-		where image_id=#{image_id}
+		where product_id=#{product_id}
 	</delete>
 	
 </mapper>

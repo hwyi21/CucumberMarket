@@ -56,5 +56,24 @@ public class ProductService {
 		return orderDetailDAO.selectProduct(address);
 	}
 	
+	//상품 상세페이지 조회
+	public OrderDetail selectDetail(int product_id) {
+		return orderDetailDAO.select(product_id);
+	}
+	
+	//상품 삭제 및 판매자가 상품 삭제 시 Order_Detail 테이블의 판매자 정보 및 상품 정보 업데이트
+	public void delete(int product_id, HttpServletRequest request) throws DMLException{
+		productDAO.delete(product_id);
+		orderDetailDAO.update(product_id);
+		List list = productImageDAO.selectAll(product_id);
+		for(int i=0; i<list.size();i++) {
+			ProductImage productImage = (ProductImage) list.get(i);
+			String filename = productImage.getFilename();
+			String realPath=request.getServletContext().getRealPath("/data/"+filename);
+			System.out.println(realPath);
+			FileManager.removeFile(realPath);
+		}
+		productImageDAO.delete(product_id);
+	}
 
 }

@@ -25,4 +25,12 @@ public class ProductImageDAO {
 	public List selectAll(int product_id) {
 		return sessionTemplate.selectList("ProductImage.selectAll", product_id);
 	}
+	
+	//상품 이미지 삭제
+	public void delete(int product_id) throws DMLException{
+		int result = sessionTemplate.delete("ProductImage.delete", product_id);
+		if(result==0) {
+			throw new DMLException("상품이 삭제 되지 않았습니다.");
+		}
+	}
 }

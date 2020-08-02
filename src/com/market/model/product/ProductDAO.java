@@ -19,15 +19,23 @@ public class ProductDAO {
 		return sessionTemplate.selectList("Product.selectAll");
 	}
 	
-	// 로그인한 유저와 같은 지역의 상품 조회
-	public List select(int product_id) {
-		return sessionTemplate.selectList("Product.select", product_id);
+	// 상품 상세페이지 조회
+	public Product select(int product_id) {
+		return sessionTemplate.selectOne("Product.select", product_id);
 	}
 	
 	public void insert(Product product) throws DMLException{
 		int result = sessionTemplate.insert("Product.insert", product);
 		if(result==0) {
 			throw new DMLException("상품이 등록되지 않았습니다");
+		}
+	}
+	
+	//상품 삭제
+	public void delete(int product_id) throws DMLException{
+		int result = sessionTemplate.delete("Product.delete", product_id);
+		if(result==0) {
+			throw new DMLException("상품이 삭제 처리 되지 않았습니다.");
 		}
 	}
 	
