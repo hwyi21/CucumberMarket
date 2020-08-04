@@ -46,7 +46,7 @@
 					</header>
 					<div class="posts">
 						<% int curPos = pager.getCurPos(); %>
-						<% int num = pager.getNum(); System.out.println(num);%>
+						<% int num = pager.getNum();%>
 						<% for (int i = 0; i < pager.getPageSize(); i++) { %>
 						<% if (num < 1) break; %>
 						<% int curPos2=curPos;%>
@@ -58,7 +58,7 @@
 						%>
 						<article>
 							<input type="hidden" value="<%=num--%>" /> 
-							<a class="image"><img src="/data/<%=productImage.getFilename()%>" /></a>
+							<a class="image"><img src="/data/<%=productImage.getFilename()%>"/></a>
 							<h3><%=product.getTitle()%></h3>
 							<p>
 								<h4><%=saler.getLocate()%></h4>

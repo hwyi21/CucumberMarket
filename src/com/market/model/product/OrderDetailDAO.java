@@ -38,4 +38,11 @@ public class OrderDetailDAO {
 			throw new DMLException("상품이 삭제되지 않았습니다.");
 		}
 	}
+	
+	public void delete(int product_id) throws DMLException{
+		int result = sessionTemplate.delete("OrderDetail.delete", product_id);
+		if(result==0) {
+			throw new DMLException("상품이 삭제 되지 않았습니다.");
+		}
+	}
 }

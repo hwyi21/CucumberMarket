@@ -1,4 +1,4 @@
-package com.market.model.Member;
+package com.market.model.member;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +27,9 @@ public class MemberDAO {
 			throw new DMLException("로그인 정보가 올바르지 않습니다.");
 		}
 		return obj;
+	}
+	
+	public Member select(int member_id) {
+		return sessionTemplate.selectOne("Member.select", member_id);
 	}
 }

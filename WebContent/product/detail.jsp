@@ -132,7 +132,7 @@ function del(){
 				<!-- Content -->
 				<section>
 					<form>
-					<div class="container" style="width:80%; margin-bottom:20px;">
+					<div class="container" style="width:100%; margin-bottom:20px;">
 					<%for(int i=0; i<productImageList.size(); i++){ %>
 					<%ProductImage productImage = productImageList.get(i); %>
 						<div class="mySlides">
@@ -168,21 +168,24 @@ function del(){
 						<h4><%=product.getContent() %></h4><br>
 						</p>
 					</div>
-					
+					</form>
 					<%if(member.getMember_id()==saler.getMember_id()){ %>
 						<ul class="actions">
 								<li>
 									<a onclick="del()" class="button">삭제</a>
 									<a href="/product/updateForm?product_id=<%=product.getProduct_id()%>" class="button">수정</a>
+									<a href="/product" class="button">목록</a>
 								</li>
 							</ul>
-					<%} %>
-					</form>
+					<%}else{  %>
 					<ul class="actions">
 						<li>
 							<a href="/product" class="button">목록</a>
+							<a href="/chat?product_id=<%=product.getProduct_id()%>&&team=0" class="button">거래 메시지 보내기</a>
 						</li>
 					</ul>
+					<%} %>
+					
 				</section>
 			</div>
 		</div>

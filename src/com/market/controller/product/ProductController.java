@@ -43,7 +43,6 @@ public class ProductController {
 	@RequestMapping(value = "/product/regist", method = RequestMethod.POST)
 	public ModelAndView regist(Product product, ProductImage productImage, OrderDetail orderDetail, HttpServletRequest request) {
 		HttpSession session=request.getSession();
-		//주문요약 정보 중 누가 샀는지를 결정!!
 		Member member = (Member)session.getAttribute("member");
 		orderDetail.setMember(member);
 		productService.insert(product, productImage, orderDetail, request, request.getServletContext().getRealPath("/data/"));
@@ -128,7 +127,7 @@ public class ProductController {
 		return "product/updateForm";
 	}
 	
-	//상품 수정 페이지
+	//상품 수정처리
 	@RequestMapping(value="/product/update", method = RequestMethod.POST)
 	public String updateForm(Model model, HttpServletRequest request, Product product, ProductImage productImage) {
 		HttpSession session=request.getSession();

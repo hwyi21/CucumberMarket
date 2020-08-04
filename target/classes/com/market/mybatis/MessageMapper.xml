@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="Message">
+	<resultMap type="Message" id="joinMap">
+		<id column="message_id" property="message_id" />
+		<result column="sender" property="sender" />
+		<result column="content" property="content" />
+		<result column="team" property="team" />
+		<result column="regdate" property="regdate" />
+		<association column="product_id" javaType="Product" property="product" select="Product.select" />
+		<association column="member_id" javaType="Member" property="member" select="Member.select" />
+	</resultMap>
+	
+	<!-- 최초 거래 관련 메시지 insert -->
+	<insert id="insertFirst" parameterType="Message">
+		insert into message(message_id, member_id, product_id, sender, content, team)
+		values(seq_message.nextval, #{member.member_id}, #{product.product_id}, #{sender}, #{content}, seq_message.nextval)
+		<selectKey keyColumn="message_id" resultType="int"
+			keyProperty="message_id" order="AFTER">
+			select seq_message.currval as
+			message_id
+			from dual
+		</selectKey>
+	</insert>
+	
+	<!-- 거래관련 메시지 insert-->
+	<insert id="insert" parameterType="Message">
+		insert into message(message_id, product_id, member_id, sender, content, team)
+		values(seq_message.nextval, #{product.product_id}, #{member.member_id}, #{sender}, #{content}, #{team})
+	</insert>
+	
+	<!-- 메세지 내용 조회 -->
+	<select id="selectMessage" parameterType="Message" resultMap="joinMap">
+		select * from message
+		where product_id=#{product.product_id} and team=#{team}
+		order by message_id
+	</select>
+	
+	<!-- 대화 목록 조회 -->
+	<select id="select" parameterType="int" resultMap="joinMap">
+		select product_id, team
+		from message
+		where member_id=#{member.member_id} or sender=#{member.member_id}
+		group by product_id, team
+	</select>
+	
+	
+</mapper>

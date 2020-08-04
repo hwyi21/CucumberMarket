@@ -11,6 +11,7 @@
 		<typeAlias type="com.market.domain.Product" alias="Product"/>
 		<typeAlias type="com.market.domain.ProductImage" alias="ProductImage"/>
 		<typeAlias type="com.market.domain.State" alias="State"/>
+		<typeAlias type="com.market.domain.Message" alias="Message"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/market/mybatis/BookmarkProductMapper.xml"/>
@@ -20,6 +21,7 @@
 		<mapper resource="com/market/mybatis/ProductMapper.xml"/>
 		<mapper resource="com/market/mybatis/ProductImageMapper.xml"/>
 		<mapper resource="com/market/mybatis/StateMapper.xml"/>
+		<mapper resource="com/market/mybatis/MessageMapper.xml"/>
 	</mappers>
 	
 </configuration>

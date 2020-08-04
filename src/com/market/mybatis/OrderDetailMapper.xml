@@ -32,4 +32,8 @@
 		update order_detail set member_id=0, product_id=0
 		where product_id=#{product_id} 
 	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from order_detail where product_id=#{product_id}
+	</delete>
 </mapper>

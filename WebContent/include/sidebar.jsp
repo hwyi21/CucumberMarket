@@ -19,6 +19,7 @@
 				<li><a href="/">Homepage</a></li>
 				<li><a href="/product">우리동네 중고물품</a></li>
 				<li><a href="/product/registForm">상품등록</a></li>
+				<li><a href="/message/list">채팅</a></li>
 				<li><span class="opener">submenu</span>
 					<ul>
 						<li><a href="/generic.html">Lorem Dolor</a></li>

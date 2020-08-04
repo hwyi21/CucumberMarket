@@ -1,4 +1,4 @@
-package com.market.model.Member;
+package com.market.model.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,5 +19,9 @@ public class MemberService {
 	//로그인
 	public Member loginCheck(Member member) throws DMLException {
 		return memberDAO.loginCheck(member);
+	}
+	
+	public Member select(int member_id) {
+		return memberDAO.select(member_id);
 	}
 }
