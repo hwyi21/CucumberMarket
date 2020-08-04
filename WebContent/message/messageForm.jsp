@@ -4,7 +4,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	OrderDetail orderDetail=(OrderDetail)request.getAttribute("orderDetail");
-	List messageList=request.getAttribute("messageList");
+	List<Message> messageList=(List)request.getAttribute("messageList");
 	Object uri = request.getAttribute("getUri");
 	String getUri = uri.toString();
 %>
@@ -95,7 +95,14 @@ function getList(data){
 				<!-- Content -->
 				<section>
 					<pre>
-						<code></code>
+						<code>
+							<%if(messageList.size()!=0){ %>
+							<%for(int i=0;i<messageList.size();i++){ %>
+							<%Message message=messageList.get(i); %>
+							<%=message.getContent() %>
+							<%} %>
+							<%} %>
+						</code>
 					</pre>
 					<div>
 						<input type="hidden" name="sender" value="<%=member.getMember_id()%>" />
@@ -104,14 +111,14 @@ function getList(data){
 							<input type="hidden" name="team" value="0" />
 							<input type="hidden" name="member_id" value="<%=orderDetail.getMember().getMember_id()%>" />
 						<%}else{ %>
-							<%Message message=messageList.get(0);%>
-							<input type="hidden" name="team" value="<%=message.getTeam()%>"/>
 							<%for(int i=0; i<messageList.size(); i++){ %>
 								<%Message message=messageList.get(i); %>
 								<%if(message.getSender()!=member.getMember_id()){ %>
 									<input type="hidden" name="member_id" value="<%=message.getSender()%>" />
-								<%}break; %>
+								<%break;}%>
 							<%} %>
+							<%Message message=messageList.get(0);%>
+							<input type="hidden" name="team" value="<%=message.getTeam()%>"/>
 						<%}%>
 						<input type="hidden" name="uri" value="<%=getUri%>" />
 						<form>

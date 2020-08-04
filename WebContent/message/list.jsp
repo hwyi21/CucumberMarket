@@ -2,7 +2,7 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-	List<Message> messageList = request.getAttribute("messageList");
+	List<Message> messageInfo = (List)request.getAttribute("messageInfo");
 %>
 <!DOCTYPE HTML>
 <!--
@@ -20,11 +20,12 @@
 <style>
 .category_icon{
 	width:inherit;
-	max-width:48%;
+	max-width:40%;
 	height:auto;
-	margin-top:22%;
+	margin-top:30%;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(function(){
 	var data=$("input[name='member_id']").val();
@@ -43,6 +44,13 @@ function getConversationInfo(data){
 		}
 	});
 }
+//대화 목록으로 이동
+function messageForm(){
+	var product_id=$("input[name='product_id']").val();
+	var team=$("input[name='team']").val();
+	location.href="/chat?product_id="+product_id+"&&team="+team;
+	
+}
 </script>
 </head>
 <body class="is-preload">
@@ -59,20 +67,24 @@ function getConversationInfo(data){
 				<!-- Section -->
 				<section>
 					<header class="major">
-						<h2>Category</h2>
+						<h2>대화 목록</h2>
 					</header>
 					<div class="features">
-						<%for(int i=0; i<messageList.size();i++){ %>
-						<%Message message=messageList.get(i); %>
+						<%for(int i=0; i<messageInfo.size();i++){ %>
+						<%Message message=messageInfo.get(i); %>
 						<article>
 							<span class="icon" ><img class="category_icon" src="/images/icon/cucumber.png"></span>
-							<div class="content" name="chatInfo">
+							<div class="content">
+								<div id="chatInfo" onClick="messageForm()">
+								<input type="hidden" name="product_id" value="<%=message.getProduct().getProduct_id() %>">
+								<input type="hidden" name="team" value="<%=message.getTeam()%>"> 
 								<%if(message.getSender()==member.getMember_id()){ %>
 									<h3><%=message.getMember().getId()%></h3>
 								<%}else{%>
 									<input type="hidden" name="member_id" value="<%=message.getSender()%>">
-							
 								<%}%>
+								</div>
+							<%=message.getProduct().getTitle() %>
 							</div>
 						</article>
 						<%} %>

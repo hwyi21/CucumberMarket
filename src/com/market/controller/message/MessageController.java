@@ -2,6 +2,7 @@ package com.market.controller.message;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -110,13 +111,22 @@ public class MessageController {
 		return sb.toString();
 	}
 	
-	@RequestMapping(value="/message/list", method=RequestMethod.GET, produces="text/html;charset=utf8")
+	//대화 목록 가져오기
+	@RequestMapping(value="/message/list", method=RequestMethod.GET)
 	public String getChatList(Model model, HttpServletRequest request) {
 		HttpSession session=request.getSession();
 		Member member = (Member)session.getAttribute("member");
 		int member_id = member.getMember_id();
-		List<Message> messageList = messageService.select(member_id);
-		model.addAttribute("messageList", messageList);
+		List messageList = messageService.select(member_id);
+		List<Message> messageInfo = new ArrayList<Message>();
+		for(int i=0; i<messageList.size();i++) {
+			Message message= (Message) messageList.get(i);
+			message.setProduct(message.getProduct());
+			message.setTeam(message.getTeam());
+			List list = messageService.selectMessage(message);
+			messageInfo.add((Message) list.get(0));
+		}
+		model.addAttribute("messageInfo", messageInfo);
 		return "message/list";
 	}
 }
