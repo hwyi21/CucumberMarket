@@ -28,11 +28,46 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
 $(function(){
-	var data=$("input[name='member_id']").val();
-	getConversationInfo(data);
+	getConversationInfo();
 });
-function getConversationInfo(data){
-	var member=data;
+
+function getConversationInfo(){
+	for(var i=0; i<<%=messageInfo.size()%>;i++){
+		var product_id=$($("input[name='product_id']")[i]).val();
+		var team=$($("input[name='team']")[i]).val();
+		var member_id=$($("input[name='member_id']")[i]).val();
+		var sender=$($("input[name='sender']")[i]).val();
+		var title=$($("input[name='title']")[i]).val();
+		var member = member_id;
+		if(member_id!=sender){
+			member=sender;
+		}
+		//var id = getId(member);
+		//h3.append(member);
+		var features = document.getElementById("features");
+		var article = document.createElement("article");
+		var span = document.createElement("span");
+		span.className ="icon";
+		var img = document.createElement("img");
+		var h3 = document.createElement("h3");
+		img.className="category_icon";
+		var content = document.createElement("div");
+		content.className="content";
+        img.src="/images/icon/cucumber.png";
+        span.append(img);
+        article.append(span);
+		content.append(h3);
+		content.append(title);
+		content.onclick = function(){
+			messageForm(product_id,team);
+		}
+		article.append(content);
+		features.append(article);
+		features.append(str);
+	}
+}
+function getId(member){
+	var member = member;
 	$.ajax({
 		"url":"/chat/info",
 		"type":"post",
@@ -40,14 +75,15 @@ function getConversationInfo(data){
 			member_id:member
 		},
 		success:function(data){
-			$("#chatInfo").append("<h3>"+data+"</h3>");
+			return data;
 		}
 	});
 }
+
 //대화 목록으로 이동
-function messageForm(){
-	var product_id=$("input[name='product_id']").val();
-	var team=$("input[name='team']").val();
+function messageForm(product, group){
+	var product_id=product;
+	var team=group;
 	location.href="/chat?product_id="+product_id+"&&team="+team;
 	
 }
@@ -69,26 +105,24 @@ function messageForm(){
 					<header class="major">
 						<h2>대화 목록</h2>
 					</header>
-					<div class="features">
+					<div class="features" id="features">
+						<input type="hidden" id="messageInfo" value="<%=messageInfo.size()%>">
 						<%for(int i=0; i<messageInfo.size();i++){ %>
 						<%Message message=messageInfo.get(i); %>
-						<article>
-							<span class="icon" ><img class="category_icon" src="/images/icon/cucumber.png"></span>
-							<div class="content">
-								<div id="chatInfo" onClick="messageForm()">
-								<input type="hidden" name="product_id" value="<%=message.getProduct().getProduct_id() %>">
-								<input type="hidden" name="team" value="<%=message.getTeam()%>"> 
-								<%if(message.getSender()==member.getMember_id()){ %>
-									<h3><%=message.getMember().getId()%></h3>
-								<%}else{%>
-									<input type="hidden" name="member_id" value="<%=message.getSender()%>">
-								<%}%>
-								</div>
-							<%=message.getProduct().getTitle() %>
-							</div>
-						</article>
+						<input type="hidden" id="product_id" name="product_id" value="<%=message.getProduct().getProduct_id()%>"/>
+						<input type="hidden" id="team" name="team" value="<%=message.getTeam()%>"/>
+						<input type="hidden" id="sender" name="sender" value="<%=message.getSender()%>">
+						<input type="hidden" id="member_id" name="member_id" value="<%=member.getMember_id()%>">
+						<input type="hidden" id="title" name="title" value="<%=message.getProduct().getTitle() %>">
+						<script>
+						/* var product_id=$("input[name='product_id']").val();
+						var team=$("input[name='team']").val();
+						var member_id=$("input[name='member_id']").val();
+						var sender=$("input[name='sender']").val();
+						var title=$("input[name='title']").val(); */
+						//getConversationInfo();
+						</script>
 						<%} %>
-						
 					</div>
 				</section>
 
@@ -101,6 +135,9 @@ function messageForm(){
 	</div>
 
 	<%@ include file="/include/common.jsp"%>
+	
 
 </body>
+<script>
+</script>
 </html>

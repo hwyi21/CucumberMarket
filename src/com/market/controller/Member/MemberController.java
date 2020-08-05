@@ -56,14 +56,15 @@ public class MemberController {
 	
 	@RequestMapping(value="/chat/info", method=RequestMethod.POST)
 	@ResponseBody
-	public String getChatInfo(HttpServletRequest request, @RequestParam int member_id) {
+	public String getChatInfo(Model model, HttpServletRequest request, @RequestParam int member_id) {
 		HttpSession session=request.getSession();
 		Member member = (Member)session.getAttribute("member");
 		
 		Member chatInfo = memberService.select(member_id);
 		String id = chatInfo.getId();
+		model.addAttribute("id", id);
 		
-		return id;
+		return "chat/list";
 	}
 
 }

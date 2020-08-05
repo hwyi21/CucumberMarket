@@ -67,13 +67,14 @@ public class MessageController {
 		OrderDetail orderDetail= productService.selectDetail(product_id);
 		message.setMember(orderDetail.getMember());
 		message.setProduct(orderDetail.getProduct());
+		String team =null;
 		if(message.getTeam()==0) {
 			messageService.insertFirst(message);
+			team = Integer.toString(message.getMessage_id());
 		}else {
 			messageService.insert(message);
+			team = Integer.toString(message.getTeam());
 		}
-		String team = Integer.toString(message.getMessage_id());
-		
 		return team;
 	}
 	

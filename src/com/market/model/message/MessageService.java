@@ -20,7 +20,7 @@ public class MessageService {
 	
 	//거래관련 메시지 insert
 	public void insert(Message message) throws DMLException{
-		messageDAO.insertFirst(message);
+		messageDAO.insert(message);
 	}
 	
 	//메세지 내용 조회
