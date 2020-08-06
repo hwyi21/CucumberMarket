@@ -49,6 +49,7 @@ function getConversationInfo(){
 		}else{
 			member=receiver;
 		}
+		console.log(team);
 		var features = document.getElementById("features");
 		var article = document.createElement("article");
 		var span = document.createElement("span");
@@ -118,7 +119,7 @@ function messageForm(product, group){
 						<% int num = pager.getNum();%>
 						<% for (int i = 0; i < pager.getPageSize(); i++) { %>
 						<% if (num < 1) break; %>
-						<%Message message=messageInfo.get(curPos); %>
+						<%Message message=messageInfo.get(curPos++); %>
 						<input type="hidden" value="<%=num--%>" /> 
 						<input type="hidden" id="product_id" name="product_id" value="<%=message.getProduct().getProduct_id()%>"/>
 						<input type="hidden" id="team" name="team" value="<%=message.getTeam()%>"/>
@@ -126,6 +127,7 @@ function messageForm(product, group){
 						<input type="hidden" id="member_id" name="member_id" value="<%=member.getMember_id()%>">
 						<input type="hidden" id="receiver" name="receiver" value="<%=message.getMember().getMember_id()%>">
 						<input type="hidden" id="title" name="title" value="<%=message.getProduct().getTitle() %>">
+						<%System.out.println(message.getTeam()); %>
 						<%} %>
 					</div>
 					
