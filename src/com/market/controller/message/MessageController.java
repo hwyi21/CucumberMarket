@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.market.controller.common.Pager;
 import com.market.domain.Member;
 import com.market.domain.Message;
 import com.market.domain.OrderDetail;
@@ -30,6 +31,9 @@ public class MessageController {
 	
 	@Autowired
 	private MessageService messageService;
+	
+	@Autowired
+	private Pager pager;
 	
 	//대화 폼 불러오기
 	@RequestMapping(value="/chat", method=RequestMethod.GET)
@@ -127,7 +131,9 @@ public class MessageController {
 			List list = messageService.selectMessage(message);
 			messageInfo.add((Message) list.get(0));
 		}
+		pager.init(messageInfo, request);
 		model.addAttribute("messageInfo", messageInfo);
+		model.addAttribute("pager", pager);
 		return "message/list";
 	}
 }

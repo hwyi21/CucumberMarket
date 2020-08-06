@@ -62,9 +62,8 @@ public class MemberController {
 		
 		Member chatInfo = memberService.select(member_id);
 		String id = chatInfo.getId();
-		model.addAttribute("id", id);
 		
-		return "chat/list";
+		return id;
 	}
 
 }

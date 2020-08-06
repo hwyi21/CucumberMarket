@@ -1,8 +1,10 @@
+<%@page import="com.market.controller.common.Pager"%>
 <%@page import="com.market.domain.Message"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<Message> messageInfo = (List)request.getAttribute("messageInfo");
+	Pager  pager = (Pager) request.getAttribute("pager");
 %>
 <!DOCTYPE HTML>
 <!--
@@ -30,20 +32,23 @@
 $(function(){
 	getConversationInfo();
 });
-
 function getConversationInfo(){
-	for(var i=0; i<<%=messageInfo.size()%>;i++){
+	var num = <%=pager.getNum()%>;
+	for(var i=0; i<<%=pager.getPageSize()%>;i++){
+		if(num<1)break;
+		num--;
 		var product_id=$($("input[name='product_id']")[i]).val();
 		var team=$($("input[name='team']")[i]).val();
 		var member_id=$($("input[name='member_id']")[i]).val();
+		var receiver=$($("input[name='receiver']")[i]).val();
 		var sender=$($("input[name='sender']")[i]).val();
 		var title=$($("input[name='title']")[i]).val();
-		var member = member_id;
+		var member = 0;
 		if(member_id!=sender){
 			member=sender;
+		}else{
+			member=receiver;
 		}
-		//var id = getId(member);
-		//h3.append(member);
 		var features = document.getElementById("features");
 		var article = document.createElement("article");
 		var span = document.createElement("span");
@@ -56,28 +61,30 @@ function getConversationInfo(){
         img.src="/images/icon/cucumber.png";
         span.append(img);
         article.append(span);
+        $.ajax({
+			"url":"/chat/info",
+			"type":"post",
+			"async":false,
+			"data":{
+				member_id:member
+			},
+			success:function(data){
+				h3.append(data);
+			}
+		});
+        
 		content.append(h3);
 		content.append(title);
-		content.onclick = function(){
-			messageForm(product_id,team);
-		}
 		article.append(content);
 		features.append(article);
-		features.append(str);
+		(function(){
+			var product=$($("input[name='product_id']")[i]).val();
+			var group=$($("input[name='team']")[i]).val();
+			document.getElementsByClassName('content')[i].onclick = function() {
+	          messageForm(product, group);
+	      }
+	    })(i);
 	}
-}
-function getId(member){
-	var member = member;
-	$.ajax({
-		"url":"/chat/info",
-		"type":"post",
-		"data":{
-			member_id:member
-		},
-		success:function(data){
-			return data;
-		}
-	});
 }
 
 //대화 목록으로 이동
@@ -107,23 +114,41 @@ function messageForm(product, group){
 					</header>
 					<div class="features" id="features">
 						<input type="hidden" id="messageInfo" value="<%=messageInfo.size()%>">
-						<%for(int i=0; i<messageInfo.size();i++){ %>
-						<%Message message=messageInfo.get(i); %>
+						<% int curPos = pager.getCurPos(); %>
+						<% int num = pager.getNum();%>
+						<% for (int i = 0; i < pager.getPageSize(); i++) { %>
+						<% if (num < 1) break; %>
+						<%Message message=messageInfo.get(curPos); %>
+						<input type="hidden" value="<%=num--%>" /> 
 						<input type="hidden" id="product_id" name="product_id" value="<%=message.getProduct().getProduct_id()%>"/>
 						<input type="hidden" id="team" name="team" value="<%=message.getTeam()%>"/>
 						<input type="hidden" id="sender" name="sender" value="<%=message.getSender()%>">
 						<input type="hidden" id="member_id" name="member_id" value="<%=member.getMember_id()%>">
+						<input type="hidden" id="receiver" name="receiver" value="<%=message.getMember().getMember_id()%>">
 						<input type="hidden" id="title" name="title" value="<%=message.getProduct().getTitle() %>">
-						<script>
-						/* var product_id=$("input[name='product_id']").val();
-						var team=$("input[name='team']").val();
-						var member_id=$("input[name='member_id']").val();
-						var sender=$("input[name='sender']").val();
-						var title=$("input[name='title']").val(); */
-						//getConversationInfo();
-						</script>
 						<%} %>
 					</div>
+					
+					<ul class="pagination" style="text-align:center">
+						<%int firstPage=pager.getFirstPage(); %>
+						<%int lastPage=pager.getLastPage(); %>
+						<%int totalPage=pager.getTotalPage(); %>
+						<%int currentPage=pager.getCurrentPage(); %>
+						<%if(firstPage-1 > 1){%>
+						<li><a href="/product?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
+				        <%}else{%>
+				        <li><span class="button disabled">Prev</span></li>
+				        <%}%>
+						<% for(int i=firstPage; i<=lastPage; i++){ %>
+        				<%if(i>totalPage) break; %>
+        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/message/list?currentPage=<%=i%>"><%= i %></a></li>
+        				<% } %>
+						 <%if((lastPage+1)>totalPage) {%>
+				        <li><span class="button disabled">Next</span></li>
+				        <%}else{%>
+				        <li><a href="/message/list?currentPage=<%=lastPage+1%>" class="button">Next</a></li>
+				        <%}%>
+					</ul>
 				</section>
 
 
