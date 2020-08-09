@@ -74,7 +74,10 @@ $(function() {
 		e.preventDefault();
 		deleteFile($(this));
 	});
-
+	
+	//$('input[type="file"]'). change(function(e){
+	//	alert();
+	//});
 });
 function getCategoryList(){
 	$.ajax({
@@ -117,6 +120,7 @@ function update(){
 		"method":"post"
 	});
 }
+
 </script>
 </head>
 <body class="is-preload">
@@ -154,7 +158,7 @@ function update(){
 								value="<%=product.getPrice() %>" />
 						</div>
 						<div class="col-6 col-12-small">
-								<input type="checkbox" id="demo-copy" name="demo-copy">
+								<input type="checkbox" id="demo-copy" name="re_regdate">
 								<label for="demo-copy">끌올</label>
 							<input type="hidden" name="re_regdate" value="false">
 						</div>

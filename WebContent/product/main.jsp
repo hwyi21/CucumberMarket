@@ -1,3 +1,4 @@
+<%@page import="com.market.domain.State"%>
 <%@page import="com.market.controller.common.Pager"%>
 <%@page import="com.market.domain.ProductImage"%>
 <%@page import="com.market.domain.Product"%>
@@ -53,6 +54,7 @@
 						<% OrderDetail orderDetail = (OrderDetail) productList.get(curPos2); %>
 						<% Product product = orderDetail.getProduct(); %>
 						<% Member saler = orderDetail.getMember(); %>
+						<% State state = orderDetail.getState();%>
 						<% List obj = (List) productImageList.get(curPos++);
 							ProductImage productImage = (ProductImage) obj.get(0);
 						%>
@@ -61,8 +63,9 @@
 							<a class="image"><img src="/data/<%=productImage.getFilename()%>"/></a>
 							<h3><%=product.getTitle()%></h3>
 							<p>
-								<h4><%=saler.getLocate()%></h4>
-								가격 : <%=product.getPrice()%>
+								<%=saler.getLocate()%> <%if(product.getRe_regdate()!=null){%>끌올<%} %>
+								<%if(state.getState_id()!=1){%><h5 style="font-color:green; font-weight:bold"><%=state.getState_title()%></h5><%}%>
+								<h4>가격 : <%=product.getPrice()%></h4>
 							</p>
 							<ul class="actions">
 								<li>

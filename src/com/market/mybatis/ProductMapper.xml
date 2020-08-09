@@ -14,10 +14,10 @@
 			property="category" select="Category.select" />
 	</resultMap>
 
-	<select id="selectAll" resultMap="categoryJoin">
+	<!-- <select id="selectAll" resultMap="categoryJoin">
 		select * from product 
 		order by first_regdate desc
-	</select>
+	</select>-->
 
 	<select id="select" parameterType="int" resultMap="categoryJoin">
 		select * from product
@@ -40,7 +40,7 @@
 	<update id="update" parameterType="Product">
 		update product set
 		category_id=#{category.category_id}, title=#{title}, price=#{price},
-		content=#{content}
+		content=#{content}, re_regdate= case when #{re_regdate} = 'on' then sysdate else null end
 		where product_id=#{product_id}
 	</update>
 

@@ -11,6 +11,7 @@
 	<select id="selectAll" parameterType="int" resultMap="joinProduct">
 		select * from product_image
 		where product_id=#{product.product_id}
+		order by image_id
 	</select>
 	
 	<insert id="insert" parameterType="ProductImage">
@@ -18,9 +19,22 @@
 		values(seq_product_image.nextval, #{product.product_id}, #{filename}, #{original_filename})
 	</insert>
 	
+	
+	<!-- 상품 삭제 시 파일 지우기 -->
 	<delete id="delete" parameterType="int">
 		delete from product_image
 		where product_id=#{product_id}
 	</delete>
+	
+	<!-- 상품 업데이트 시 파일 지우기 -->
+	<delete id="deleteImg" parameterType="int">
+		delete from product_image
+		where image_id=#{image_id}
+	</delete>
+	
+	<update id="update" parameterType="int">
+		update product_image set filename=null
+		where image_id=#{image_id}
+	</update>
 	
 </mapper>

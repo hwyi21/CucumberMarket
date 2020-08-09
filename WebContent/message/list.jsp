@@ -127,7 +127,6 @@ function messageForm(product, group){
 						<input type="hidden" id="member_id" name="member_id" value="<%=member.getMember_id()%>">
 						<input type="hidden" id="receiver" name="receiver" value="<%=message.getMember().getMember_id()%>">
 						<input type="hidden" id="title" name="title" value="<%=message.getProduct().getTitle() %>">
-						<%System.out.println(message.getTeam()); %>
 						<%} %>
 					</div>
 					

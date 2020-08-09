@@ -16,7 +16,7 @@
 	
 	<!-- 로그인한 회원의 가입 지역과 같은 지역으로 등록된 상품번호 찾기 -->
 	<select id="selectProduct" parameterType="String" resultMap="joinMap">
-		select order_detail.order_id, order_detail.product_id, order_detail.member_id
+		select order_detail.order_id, order_detail.product_id, order_detail.member_id, order_detail.state_id
 		from member, order_detail
 		where member.member_id=order_detail.member_id and member.locate like '%'||#{address}||'%'
 	</select>

@@ -48,7 +48,7 @@ public class ProductController {
 		productService.insert(product, productImage, orderDetail, request, request.getServletContext().getRealPath("/data/"));
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("url", "/");
+		mav.addObject("url", "/product");
 		mav.addObject("msg", "상품이 등록되었습니다.");
 		mav.setViewName("view/message");
 
@@ -104,6 +104,8 @@ public class ProductController {
 	//상품 삭제 페이지
 	@RequestMapping(value="/product/delete", method= RequestMethod.POST)
 	public String productDelete(Model model, HttpServletRequest request, @RequestParam int product_id) {
+		HttpSession session=request.getSession();
+		Member member = (Member)session.getAttribute("member");
 		String realPath=request.getServletContext().getRealPath("/data/");
 		productService.delete(product_id, request);
 		
@@ -132,15 +134,14 @@ public class ProductController {
 	public String updateForm(Model model, HttpServletRequest request, Product product, ProductImage productImage) {
 		HttpSession session=request.getSession();
 		Member member = (Member)session.getAttribute("member");
-		System.out.println(product.getProduct_id()+"상품아이디");
-		System.out.println(request.getParameter("re_regdate")+"끌올");
-		//OrderDetail orderDetail = productService.selectDetail(product_id);
-		//Product product = orderDetail.getProduct();
-		//List productImageList = productImageService.selectAll(product_id);
+		product.setRe_regdate(request.getParameter("re_regdate"));
+		//System.out.println(request.getParameter("re_regdate")+"끌올"); //선택on 선택x false
+		productService.update(product, productImage, request);
 		
-		//model.addAttribute("product", product);
-		//model.addAttribute("productImageList", productImageList);
-		return null;
+		
+		model.addAttribute("msg", "수정 성공");
+		model.addAttribute("url", "/product/detail?product_id="+product.getProduct_id());
+		return "view/message";
 	}
 	
 }

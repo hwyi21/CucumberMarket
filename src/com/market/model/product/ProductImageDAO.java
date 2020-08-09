@@ -30,7 +30,30 @@ public class ProductImageDAO {
 	public void delete(int product_id) throws DMLException{
 		int result = sessionTemplate.delete("ProductImage.delete", product_id);
 		if(result==0) {
-			throw new DMLException("상품이 삭제 되지 않았습니다.");
+			throw new DMLException("상품이 이미지가 삭제 되지 않았습니다.");
+		}
+	}
+	
+	//상품 업데이트시 이미지 삭제
+	public void deleteImg(int image_id) throws DMLException{
+		int result = sessionTemplate.delete("ProductImage.deleteImg", image_id);
+		if(result==0) {
+			throw new DMLException("상품이 이미지가 업데이트 되지 않았습니다.");
+		}
+	}
+	
+	public void update(int image_id) throws DMLException{
+		int result = sessionTemplate.delete("ProductImage.update", image_id);
+		if(result==0) {
+			throw new DMLException("상품이 이미지가 업데이트 되지 않았습니다.");
+		}
+	}
+	
+	//상품 업데이트
+	public void update(ProductImage productImage) throws DMLException{
+		int result = sessionTemplate.delete("ProductImage.update", productImage);
+		if(result==0) {
+			throw new DMLException("상품이 수정 되지 않았습니다.");
 		}
 	}
 }

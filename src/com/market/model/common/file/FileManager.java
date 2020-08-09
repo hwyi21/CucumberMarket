@@ -33,7 +33,7 @@ public class FileManager {
 		return ext;
 	}
 	
-	//지정한 경로에 파일 저장하기
+	//지정한 경로에 파일  이미지 여러장 저장하기
 	public static List saveFile(HttpServletRequest request, String realPath) throws FileException{
 		boolean flag=false;
 		MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
@@ -63,14 +63,44 @@ public class FileManager {
 				listMap.put("original_filename", ori);
 				listMap.put("filename", dest.getName()); 
 				list.add(listMap); 
-				}
-			
 			}
+			
+		}
 		if(flag==false) {
 			throw new FileException("파일 저장에 실패하였습니다.");
 		}
 		return list;
 
+	}
+	
+	//이미지 파일 한 건 저장
+	public static List saveOneFile(MultipartFile multipartFile, String ori, String realPath) throws FileException{
+		boolean flag=false;
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>(); 
+		Map<String, Object> listMap = null;
+		
+		// 디비에 저장할 파일 경로 + 이름
+		String filename=realPath+FileManager.createFilename(ori);
+		File dest=new File(filename);
+		try {
+			multipartFile.transferTo(dest);//디스크에 저장
+			flag=true;
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+			flag=false;
+		} catch (IOException e) {
+			flag=false;
+			e.printStackTrace();
+		} 
+		listMap = new HashMap<String,Object>(); 
+		listMap.put("original_filename", ori);
+		listMap.put("filename", dest.getName()); 
+		list.add(listMap); 
+			
+		if(flag==false) {
+			throw new FileException("파일 업데이트에 실패하였습니다.");
+		}
+		return list;
 	}
 	
 	//파일 삭제
