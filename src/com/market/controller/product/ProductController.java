@@ -1,5 +1,7 @@
 package com.market.controller.product;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,11 +86,37 @@ public class ProductController {
 		return mav;
 	}
 	
+	//카테고리 별 상품 모아보기
+	@RequestMapping(value="/product/category", method = RequestMethod.GET)
+	public String selectCategoryProduct(Model model, HttpServletRequest request, @RequestParam int category_id) {
+		List productList = productService.selectCategoryProduct(category_id);
+		List productImageList = new ArrayList();
+		List orderDetailList = new ArrayList();
+		for(int i=0; i<productList.size();i++) {
+			Product product = (Product) productList.get(i);
+			int product_id=product.getProduct_id();
+			OrderDetail orderDetail = productService.selectDetail(product_id);
+			orderDetailList.add(orderDetail);
+			if(product_id==0) {
+				continue;
+			}else {
+				List list = productImageService.selectAll(product_id);
+				productImageList.add(list);
+			}
+		}
+		//페이징 처리 객체 
+		pager.init(productList, request);
+		model.addAttribute("productList", productList);
+		model.addAttribute("orderDetailList", orderDetailList);
+		model.addAttribute("productImageList", productImageList);
+		model.addAttribute("pager", pager);
+		
+		return "product/categoryMain";
+	}
+	
 	//상품 상세 페이지
 	@RequestMapping(value="/product/detail", method = RequestMethod.GET)
 	public String productDetail(Model model, HttpServletRequest request, @RequestParam int product_id) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
 		
 		OrderDetail orderDetail = productService.selectDetail(product_id);
 		Product product = orderDetail.getProduct();

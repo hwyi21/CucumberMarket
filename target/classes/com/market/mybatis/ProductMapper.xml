@@ -23,6 +23,11 @@
 		select * from product
 		where product_id=#{product_id}
 	</select>
+	
+	<select id="selectCategoryProduct" parameterType="int" resultMap="categoryJoin">
+		select * from product
+		where category_id=#{category_id}
+	</select>
 
 	<insert id="insert" parameterType="Product">
 		insert into product(product_id, category_id, title, price, content)

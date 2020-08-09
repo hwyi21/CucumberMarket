@@ -69,11 +69,10 @@
 					<div class="features">
 						<%for(int i=0; i<categoryList.size();i++){ %>
 						<%Category category=categoryList.get(i); %>
-						<article>
+						<article onclick="location.href='/product/category?category_id=<%=category.getCategory_id()%>'">
 							<span class="icon" ><img class="category_icon" src="/images/icon/<%=category.getCategory_image()%>"></span>
 							<div class="content">
 								<h3><%=category.getCategory_name()%></h3>
-								
 							</div>
 						</article>
 						<%} %>
