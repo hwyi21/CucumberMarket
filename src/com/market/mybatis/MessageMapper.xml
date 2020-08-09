@@ -36,6 +36,11 @@
 		order by message_id
 	</select>
 	
+	<select id="selectBuyer" parameterType="int" resultMap="joinMap">
+		select * from message
+		where product_id=#{product.product_id}
+	</select>
+	
 	<!-- 대화 목록 조회 -->
 	<select id="select" parameterType="int" resultMap="joinMap">
 		select product_id, team

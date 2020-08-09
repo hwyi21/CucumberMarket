@@ -3,7 +3,7 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-	List<Message> messageInfo = (List)request.getAttribute("messageInfo");
+	List<Message> messageList = (List)request.getAttribute("messageList");
 	Pager  pager = (Pager) request.getAttribute("pager");
 %>
 <!DOCTYPE HTML>
@@ -79,22 +79,20 @@ function getConversationInfo(){
 		article.append(content);
 		features.append(article);
 		(function(){
-			var product=product_id;
-			var group = team;
+			var product = product_id;
+			var member_id = member;
 			document.getElementsByClassName('content')[i].onclick = function() {
-	          messageForm(product, group);
+	          messageForm(product, member_id);
 	      }
 	    })(i);
 	}
 }
 
-//대화 목록으로 이동
-function messageForm(product, group){
-	var product_id=product;
-	var team=group;
-	location.href="/chat?product_id="+product_id+"&&team="+team;
-	
+//Order_detail 구매자 등록
+function messageForm(product_id, member){
+	location.href="/success?product_id="+product_id+"&&buyer_id="+member;
 }
+
 </script>
 </head>
 <body class="is-preload">
@@ -111,15 +109,15 @@ function messageForm(product, group){
 				<!-- Section -->
 				<section>
 					<header class="major">
-						<h2>대화 목록</h2>
+						<h2>거래 상대를 골라주세요</h2> 
 					</header>
 					<div class="features" id="features">
-						<input type="hidden" id="messageInfo" value="<%=messageInfo.size()%>">
+						<input type="hidden" id="messageList" value="<%=messageList.size()%>">
 						<% int curPos = pager.getCurPos(); %>
 						<% int num = pager.getNum();%>
 						<% for (int i = 0; i < pager.getPageSize(); i++) { %>
 						<% if (num < 1) break; %>
-						<%Message message=messageInfo.get(curPos++); %>
+						<%Message message=messageList.get(curPos++); %>
 						<input type="hidden" value="<%=num--%>" /> 
 						<input type="hidden" id="product_id" name="product_id" value="<%=message.getProduct().getProduct_id()%>"/>
 						<input type="hidden" id="team" name="team" value="<%=message.getTeam()%>"/>

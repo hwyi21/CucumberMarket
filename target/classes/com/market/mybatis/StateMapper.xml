@@ -8,7 +8,7 @@
 	</select>
 	
 	<select id="selectAll" resultType="State">
-		select * from state;
+		select * from state
 	</select>
 	
 	<insert id="insert" parameterType="State">

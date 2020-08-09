@@ -1,3 +1,4 @@
+<%@page import="com.market.domain.OrderDetail"%>
 <%@page import="com.market.domain.ProductImage"%>
 <%@page import="com.market.domain.Product"%>
 <%@page import="java.util.List"%>
@@ -5,6 +6,7 @@
 <%
 	Product product = (Product)request.getAttribute("product");
 	Member saler = (Member)request.getAttribute("saler");
+	OrderDetail orderDetail = (OrderDetail)request.getAttribute("orderDetail");
 	List<ProductImage> productImageList = (List) request.getAttribute("productImageList");
 
 %>
@@ -107,6 +109,65 @@ img {
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
+var state_id=<%=orderDetail.getState().getState_id()%>;
+var order=<%=orderDetail.getProduct().getProduct_id()%>;
+$(function() {
+	getStateList(); //거래 상태 목록 가져오기
+	
+	$("#demo-category").change(function(){
+		updateState(order);
+	});
+	
+});
+
+
+
+function getStateList(){
+	$.ajax({
+		"url":"/state/list",
+		"type":"get",
+		success:function(result){
+			var json=JSON.parse(result);			
+			$("select").empty();
+			for(var i=0; i<json.stateList.length;i++){
+				var obj=json.stateList[i];
+				//전역변수로 선언된 카테고리의 id와 obj의 id가 같은 경우
+				//selected 처리
+				if(obj.state_id==state_id){
+					$("select").append("<option selected value='"+obj.state_id+"'>"+obj.state_title+"</option>");					
+				}else{
+					$("select").append("<option value='"+obj.state_id+"'>"+obj.state_title+"</option>");					
+				}
+				
+			}
+		}
+	});
+}
+
+function updateState(order){
+	var product = order
+	//alert($("#demo-category option:selected").val());
+	$.ajax({
+		"url":"/state/update",
+		"type":"post",
+		"data":{
+			product_id:product,
+			state_id:$("#demo-category option:selected").val()
+		},
+		success:function(data){
+			if(data=="3"){
+				chooseBuyer();
+			}else{
+				alert("수정이 완료 되었습니다.");
+			}
+		}
+	});
+}
+
+function chooseBuyer(){
+	location.href="/choose/buyer?product_id="+<%=product.getProduct_id()%>;	
+}
+
 function del(){
 	if(confirm("삭제하시겠습니까?")){
 		$("form").attr({
@@ -148,14 +209,21 @@ function del(){
 						<%for(int i=1; i<=productImageList.size(); i++){ %>
 						<%ProductImage productImage = productImageList.get(i-1); %>
 							<div class="column">
-								<img class="demo cursor" src="/data/<%=productImage.getFilename()%>" style="width: 100%"
-									onclick="currentSlide(<%=i%>)">
+								<img class="demo cursor" src="/data/<%=productImage.getFilename()%>" style="width: 100%;" onclick="currentSlide(<%=i%>)">
 							</div>
-							<%} %>
+						<%} %>
 						</div>
 					</div>
 					
 					<div class="box">
+						<%if(member.getMember_id()==saler.getMember_id()){ %>
+							<div class="col-12">
+								<select name="state.state_id" id="demo-category">
+								</select>
+							</div>
+						<%}else{%>
+							<h5 style="font-color:green; font-weight:bold"><%=orderDetail.getState().getState_title()%></h5>
+						<%} %>
 						<p>
 						<h2><%=product.getTitle()%></h2>
 						<%=product.getCategory().getCategory_name() %>

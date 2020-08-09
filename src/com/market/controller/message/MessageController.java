@@ -3,6 +3,7 @@ package com.market.controller.message;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -135,5 +136,19 @@ public class MessageController {
 		model.addAttribute("messageInfo", messageInfo);
 		model.addAttribute("pager", pager);
 		return "message/list";
+	}
+	
+	//대화 목록 가져오기
+	@RequestMapping(value="/choose/buyer", method=RequestMethod.GET)
+	public String getBuyer(Model model, Message message, HttpServletRequest request, @RequestParam int product_id) {
+		HttpSession session=request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		
+		List messageList = messageService.selectBuyer(product_id);
+		
+		pager.init(messageList, request);
+		model.addAttribute("messageList", messageList);
+		model.addAttribute("pager", pager);
+		return "message/buyerList";
 	}
 }

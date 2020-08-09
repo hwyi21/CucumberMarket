@@ -1,5 +1,6 @@
 package com.market.model.message;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class MessageService {
 	//메세지 내용 조회
 	public List selectMessage(Message message) {
 		return messageDAO.selectMessage(message);
+	}
+	
+	//상품별 대화 상대 조회
+	public List selectBuyer(int product_id) {
+		return messageDAO.selectBuyer(product_id);
 	}
 	
 	//메세지 목록 조회

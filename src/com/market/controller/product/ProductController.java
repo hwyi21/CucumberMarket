@@ -124,6 +124,7 @@ public class ProductController {
 		List productImageList = productImageService.selectAll(product_id);
 		
 		model.addAttribute("product", product);
+		model.addAttribute("orderDetail", orderDetail);
 		model.addAttribute("saler", saler);
 		model.addAttribute("productImageList", productImageList);
 		return "product/detail";
@@ -172,4 +173,18 @@ public class ProductController {
 		return "view/message";
 	}
 	
+	//상품 수정처리
+	@RequestMapping(value="/success", method = RequestMethod.GET)
+	public String updateBuyer(Model model, HttpServletRequest request, OrderDetail orderDetail, @RequestParam int product_id, @RequestParam int buyer_id) {
+		HttpSession session=request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		orderDetail = productService.selectDetail(product_id);
+		orderDetail.setProduct(orderDetail.getProduct());
+		orderDetail.setBuyer_id(buyer_id);
+		
+		productService.updateBuyer(orderDetail);
+		model.addAttribute("msg", "거래가 완료되었습니다.");
+		model.addAttribute("url", "/product/detail?product_id="+product_id);
+		return "view/message";
+	}
 }

@@ -90,6 +90,10 @@ public class ProductService {
 		productImageDAO.delete(product_id);
 	}
 	
+	public void updateBuyer(OrderDetail orderDetail) {
+		orderDetailDAO.updateBuyer(orderDetail);
+	}
+	
 	public void update(Product product, ProductImage productImage, HttpServletRequest request)throws DMLException, FileException {
 		productDAO.update(product);
 		productImage.setProduct(product);

@@ -18,7 +18,7 @@
 	<select id="selectProduct" parameterType="String" resultMap="joinMap">
 		select order_detail.order_id, order_detail.product_id, order_detail.member_id, order_detail.state_id
 		from member, order_detail
-		where member.member_id=order_detail.member_id and member.locate like '%'||#{address}||'%'
+		where member.member_id=order_detail.member_id and member.locate like '%'||#{address}||'%' and order_detail.state_id=1 or order_detail.state_id=2 
 	</select>
 	
 	<select id="select" parameterType="int" resultMap="joinMap">
@@ -31,6 +31,18 @@
 	<update id="updateSaler" parameterType="int">
 		update order_detail set member_id=0, product_id=0
 		where product_id=#{product_id} 
+	</update>
+	
+	<!-- 상품 거래 상태 업데이트 -->
+	<update id="updateState" parameterType="OrderDetail">
+		update order_detail set state_id=#{state.state_id}
+		where product_id=#{product.product_id}
+	</update>
+	
+	<!-- 거래완료 시 구매자 업데이트 -->
+	<update id="updateBuyer" parameterType="OrderDetail">
+		update order_detail set buyer_id=#{buyer_id}
+		where product_id=#{product.product_id}
 	</update>
 	
 	<delete id="delete" parameterType="int">

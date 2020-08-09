@@ -55,7 +55,9 @@
 						<% State state = orderDetail.getState();%>
 						<% List obj = (List) productImageList.get(curPos++);
 							ProductImage productImage = (ProductImage) obj.get(0);
-						%>
+							if(orderDetail.getState().getState_id()==1||orderDetail.getState().getState_id()==2){ %>
+						<%} %>
+						
 						<article>
 							<input type="hidden" value="<%=num--%>" /> 
 							<a class="image"><img src="/data/<%=productImage.getFilename()%>"/></a>

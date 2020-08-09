@@ -1,5 +1,6 @@
 package com.market.model.message;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -33,6 +34,10 @@ public class MessageDAO {
 	//메세지 내용 조회
 	public List selectMessage(Message message) {
 		return sessionTemplate.selectList("Message.selectMessage", message);
+	}
+	
+	public List selectBuyer(int product_id) {
+		return sessionTemplate.selectList("Message.selectBuyer", product_id);
 	}
 	
 	//메세지 목록 조회

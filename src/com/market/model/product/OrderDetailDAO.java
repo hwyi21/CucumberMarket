@@ -39,6 +39,14 @@ public class OrderDetailDAO {
 		}
 	}
 	
+	//거래 완료시 구매자 업데이트
+	public void updateBuyer(OrderDetail orderDetail) throws DMLException{
+		int result = sessionTemplate.update("OrderDetail.updateBuyer", orderDetail);
+		if(result==0) {
+			throw new DMLException("구매자가 선택되지 않았습니다.");
+		}
+	}
+		
 	public void delete(int product_id) throws DMLException{
 		int result = sessionTemplate.delete("OrderDetail.delete", product_id);
 		if(result==0) {
