@@ -50,8 +50,7 @@
 						<% int num = pager.getNum();%>
 						<% for (int i = 0; i < pager.getPageSize(); i++) { %>
 						<% if (num < 1) break; %>
-						<% int curPos2=curPos;%>
-						<% OrderDetail orderDetail = (OrderDetail) productList.get(curPos2); %>
+						<% OrderDetail orderDetail = (OrderDetail) productList.get(curPos); %>
 						<% Product product = orderDetail.getProduct(); %>
 						<% Member saler = orderDetail.getMember(); %>
 						<% State state = orderDetail.getState();%>

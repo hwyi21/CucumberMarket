@@ -21,11 +21,24 @@
 		where member.member_id=order_detail.member_id and member.locate like '%'||#{address}||'%' and order_detail.state_id=1 or order_detail.state_id=2 
 	</select>
 	
+	<!-- 상품 상세 페이지 조회 -->
 	<select id="select" parameterType="int" resultMap="joinMap">
 		select * 
 		from order_detail
 		where product_id=#{product_id}
 	</select>
+	
+	<select id="selectProductByCategory" parameterType="int" resultMap="joinMap">
+		select * from order_detail 
+		where product_id=#{product.product_id} and order_detail.state_id=1 or order_detail.state_id=2
+	</select>
+	
+	<!-- <select id="selectProductByCategory" parameterType="int" resultMap="joinMap">
+		select * from order_detail 
+		inner join product 
+		on order_detail.product_id = product.product_id 
+		where product.category_id=#{category.category_id} and order_detail.state_id=1 or order_detail.state_id=2;
+	</select> -->
 	
 	<!-- 판매자가 등록한 상품 삭제시 판매자 정보를 0으로 바꿈 -->
 	<update id="updateSaler" parameterType="int">

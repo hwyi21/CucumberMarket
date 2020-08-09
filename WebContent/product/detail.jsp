@@ -8,7 +8,6 @@
 	Member saler = (Member)request.getAttribute("saler");
 	OrderDetail orderDetail = (OrderDetail)request.getAttribute("orderDetail");
 	List<ProductImage> productImageList = (List) request.getAttribute("productImageList");
-
 %>
 <!DOCTYPE HTML>
 <!--
@@ -216,14 +215,16 @@ function del(){
 					</div>
 					
 					<div class="box">
+					<%if(member!=null){ %>
 						<%if(member.getMember_id()==saler.getMember_id()){ %>
 							<div class="col-12">
 								<select name="state.state_id" id="demo-category">
 								</select>
 							</div>
-						<%}else{%>
-							<h5 style="font-color:green; font-weight:bold"><%=orderDetail.getState().getState_title()%></h5>
 						<%} %>
+					<%}else{%>
+							<h5 style="font-color:green; font-weight:bold"><%=orderDetail.getState().getState_title()%></h5>
+						<%}%>
 						<p>
 						<h2><%=product.getTitle()%></h2>
 						<%=product.getCategory().getCategory_name() %>
@@ -244,21 +245,23 @@ function del(){
 							<a href="/chat?product_id=<%=product.getProduct_id()%>&&team=0" class="button">거래 메시지 보내기</a>
 						</li>
 					</ul>
-					<%}else if(member.getMember_id()==saler.getMember_id()){ %>
+					<%}else if(member!=null){ %>
+						<%if(member.getMember_id()==saler.getMember_id()){ %>
+							<ul class="actions">
+									<li>
+										<a onclick="del()" class="button">삭제</a>
+										<a href="/product/updateForm?product_id=<%=product.getProduct_id()%>" class="button">수정</a>
+										<a onclick="history.back()" class="button">목록</a>
+									</li>
+								</ul>
+						<%}else{  %>
 						<ul class="actions">
-								<li>
-									<a onclick="del()" class="button">삭제</a>
-									<a href="/product/updateForm?product_id=<%=product.getProduct_id()%>" class="button">수정</a>
-									<a onclick="history.back()" class="button">목록</a>
-								</li>
-							</ul>
-					<%}else{  %>
-					<ul class="actions">
-						<li>
-							<a onclick="history.back()" class="button">목록</a>
-							<a href="/chat?product_id=<%=product.getProduct_id()%>&&team=0" class="button">거래 메시지 보내기</a>
-						</li>
-					</ul>
+							<li>
+								<a onclick="history.back()" class="button">목록</a>
+								<a href="/chat?product_id=<%=product.getProduct_id()%>&&team=0" class="button">거래 메시지 보내기</a>
+							</li>
+						</ul>
+						<%} %>
 					<%} %>
 					
 				</section>
