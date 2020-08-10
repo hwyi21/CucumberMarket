@@ -43,7 +43,7 @@
 				<!-- Content -->
 				<section>
 					<header class="major">
-						<h2><%=member.getLocate()%></h2>
+						<h2>구매내역</h2>
 					</header>
 					<div class="posts">
 						<% int curPos = pager.getCurPos(); %>
@@ -73,10 +73,12 @@
 							</ul>
 						</article>
 						<% }%>
-						<!-- 등록된 상품이 없는 경우 -->
+						<!-- 구매한 상품이 없는 경우 -->
 						<% if (productList.size() == 0) { %>
 						<article style="width: 100%">
-							<h3><%=member.getLocate()%> 에 등록된 상품이 없습니다.</h3>
+							<h3>아직 구매하신 상품이 없습니다</h3>
+							<p>우리 동네 이웃이 판매중인 다양한 물건을 구경해보세요</p>
+							<button onclick="location.href='/product'">우리 동네 물건 보러가기</button>
 						</article>
 						<% } %>
 					</div>

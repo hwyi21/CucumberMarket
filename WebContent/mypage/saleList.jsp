@@ -43,7 +43,7 @@
 				<!-- Content -->
 				<section>
 					<header class="major">
-						<h2><%=member.getLocate()%></h2>
+						<h2>판매내역</h2>
 					</header>
 					<div class="posts">
 						<% int curPos = pager.getCurPos(); %>
@@ -73,10 +73,12 @@
 							</ul>
 						</article>
 						<% }%>
-						<!-- 등록된 상품이 없는 경우 -->
+						<!-- 판매한 상품이 없는 경우 -->
 						<% if (productList.size() == 0) { %>
 						<article style="width: 100%">
-							<h3><%=member.getLocate()%> 에 등록된 상품이 없습니다.</h3>
+							<h3>아직 판매 중인 상품이 없습니다</h3>
+							<p>오이마켓에 상품을 등록해 보세요</p>
+							<button onclick="location.href='/product/registForm'">오이마켓에서 거래하기</button>
 						</article>
 						<% } %>
 					</div>

@@ -44,13 +44,6 @@
 		where product_id=#{product_id}
 	</update>
 
-	<!-- re_regdate 항목만 수정 -->
-	<update id="update_re_regdate" parameterType="Product">
-		update product set
-		re_regdate=#{re_regdate}
-		where product_id=#{product_id}
-	</update>
-
 	<delete id="delete" parameterType="int">
 		delete from product
 		where product_id=#{product_id}

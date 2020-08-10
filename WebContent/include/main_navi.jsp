@@ -14,7 +14,7 @@
 		<li><a href="/member/registForm.jsp" class="icon">회원가입</a></li>
 		<% } else { %>
 		<li><a href="/member/logout" class="icon">로그아웃</a></li>
-		<li><a href="#" class="icon">MyPage</a></li>
+		<li><a href="/mypage/main" class="icon">MyPage</a></li>
 		<% } %>
 	</ul>
 </header>

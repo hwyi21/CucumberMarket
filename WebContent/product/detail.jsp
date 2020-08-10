@@ -8,6 +8,8 @@
 	Member saler = (Member)request.getAttribute("saler");
 	OrderDetail orderDetail = (OrderDetail)request.getAttribute("orderDetail");
 	List<ProductImage> productImageList = (List) request.getAttribute("productImageList");
+	Object uri = request.getAttribute("getUri");
+	String getUri = uri.toString();
 %>
 <!DOCTYPE HTML>
 <!--
@@ -223,7 +225,7 @@ function del(){
 							</div>
 						<%} %>
 					<%}else{%>
-							<h5 style="font-color:green; font-weight:bold"><%=orderDetail.getState().getState_title()%></h5>
+							<h5 style="color:green; font-weight:bold"><%=orderDetail.getState().getState_title()%></h5>
 						<%}%>
 						<p>
 						<h2><%=product.getTitle()%></h2>
@@ -251,13 +253,25 @@ function del(){
 									<li>
 										<a onclick="del()" class="button">삭제</a>
 										<a href="/product/updateForm?product_id=<%=product.getProduct_id()%>" class="button">수정</a>
+										<%if(getUri.equals("/product")){%>
+										<a href="/product" class="button">목록</a>
+										<%}else if(getUri.equals("/product/category")){ %>
+										<a href="/product/category?category_id=<%=product.getCategory().getCategory_id() %>" class="button">목록</a>
+										<%}else{ %>
 										<a onclick="history.back()" class="button">목록</a>
+										<%} %>
 									</li>
 								</ul>
 						<%}else{  %>
 						<ul class="actions">
 							<li>
+								<%if(getUri.equals("/product")){%>
+								<a href="/product" class="button">목록</a>
+								<%}else if(getUri.equals("/product/category")){ %>
+								<a href="/product/category?category_id=<%=product.getCategory().getCategory_id() %>" class="button">목록</a>
+								<%}else{ %>
 								<a onclick="history.back()" class="button">목록</a>
+								<%} %>
 								<a href="/chat?product_id=<%=product.getProduct_id()%>&&team=0" class="button">거래 메시지 보내기</a>
 							</li>
 						</ul>

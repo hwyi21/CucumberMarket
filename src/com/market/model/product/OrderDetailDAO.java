@@ -26,9 +26,11 @@ public class OrderDetailDAO {
 		return sessionTemplate.selectList("OrderDetail.selectProduct", address);
 	}
 	
+	//카테고리 별 상품 조회
 	public List selectProductByCategory(int category_id) {
 		return sessionTemplate.selectList("OrderDetail.selectProductByCategory", category_id);
 	}
+	
 	
 	//상품 상세 페이지 조회
 	public OrderDetail select(int product_id) {

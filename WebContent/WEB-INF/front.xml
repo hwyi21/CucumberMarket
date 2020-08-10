@@ -63,7 +63,7 @@
 	
 	<aop:config>
 		<aop:aspect ref="sessionCheckAspect">
-			<aop:pointcut expression="execution(public * com.market.controller.product.ProductController.*(..))||execution(public * com.market.controller.message.MessageController.*(..))" id="methodPointcut"/>
+			<aop:pointcut expression="execution(public * com.market.controller.product.ProductController.*(..))||execution(public * com.market.controller.message.MessageController.*(..))||execution(public * com.market.controller.mypage.MypageController.*(..))" id="methodPointcut"/>
 			<aop:around method="sessionCheck" pointcut-ref="methodPointcut"/>
 		</aop:aspect>
 	</aop:config>

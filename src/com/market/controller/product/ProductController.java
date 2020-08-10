@@ -93,7 +93,6 @@ public class ProductController {
 	public String selectCategoryProduct(Model model, HttpServletRequest request, @RequestParam int category_id) {
 		List productList = productService.selectProductByCategory(category_id);
 		List productImageList = new ArrayList();
-		//List orderDetailList = new ArrayList();
 		for(int i=0; i<productList.size();i++) {
 			OrderDetail product = (OrderDetail) productList.get(i);
 			int product_id=product.getProduct().getProduct_id();
@@ -108,7 +107,6 @@ public class ProductController {
 		//페이징 처리 객체 
 		pager.init(productList, request);
 		model.addAttribute("productList", productList);
-		//model.addAttribute("orderDetailList", orderDetailList);
 		model.addAttribute("productImageList", productImageList);
 		model.addAttribute("pager", pager);
 		
@@ -118,7 +116,14 @@ public class ProductController {
 	//상품 상세 페이지
 	@RequestMapping(value="/product/detail", method = RequestMethod.GET)
 	public String productDetail(Model model, HttpServletRequest request, @RequestParam int product_id) {
-		
+		String referer = request.getHeader("referer");
+		String getUri = null;
+		try {
+			URI uri = new URI(referer);
+			getUri = uri.getPath();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
 		OrderDetail orderDetail = productService.selectDetail(product_id);
 		Product product = orderDetail.getProduct();
 		Member saler = orderDetail.getMember();
@@ -127,6 +132,7 @@ public class ProductController {
 		model.addAttribute("product", product);
 		model.addAttribute("orderDetail", orderDetail);
 		model.addAttribute("saler", saler);
+		model.addAttribute("getUri", getUri);
 		model.addAttribute("productImageList", productImageList);
 		return "product/detail";
 	}
