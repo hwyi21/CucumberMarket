@@ -6,8 +6,8 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-	List<Product> productList = (List) request.getAttribute("productList");
-	List<OrderDetail> orderDetailList = (List) request.getAttribute("orderDetailList");
+	List<OrderDetail> productList = (List) request.getAttribute("productList");
+	//List<OrderDetail> orderDetailList = (List) request.getAttribute("orderDetailList");
 	List<ProductImage> productImageList = (List) request.getAttribute("productImageList");
 	Pager pager = (Pager) request.getAttribute("pager");
 %>
@@ -48,23 +48,20 @@
 						<% int num = pager.getNum();%>
 						<% for (int i = 0; i < pager.getPageSize(); i++) { %>
 						<% if (num < 1) break; %>
-						<% int curPos2=curPos;%>
-						<% Product product = (Product) productList.get(curPos); %>
-						<% OrderDetail orderDetail= orderDetailList.get(curPos); %>
+						<% OrderDetail orderDetail= productList.get(curPos); %>
+						<% Product product = orderDetail.getProduct(); %>
 						<% Member saler = orderDetail.getMember(); %>
 						<% State state = orderDetail.getState();%>
 						<% List obj = (List) productImageList.get(curPos++);
 							ProductImage productImage = (ProductImage) obj.get(0);
-							if(orderDetail.getState().getState_id()==1||orderDetail.getState().getState_id()==2){ %>
-						<%} %>
-						
-						<article>
+							%>
+							<article>
 							<input type="hidden" value="<%=num--%>" /> 
 							<a class="image"><img src="/data/<%=productImage.getFilename()%>"/></a>
 							<h3><%=product.getTitle()%></h3>
 							<p>
 								<%=saler.getLocate()%> <%if(product.getRe_regdate()!=null){%>끌올<%} %>
-								<%if(state.getState_id()!=1){%><h5 style="font-color:green; font-weight:bold"><%=state.getState_title()%></h5><%}%>
+								<%if(state.getState_id()!=1){%><h5 style="color:green; font-weight:bold"><%=state.getState_title()%></h5><%}%>
 								<h4>가격 : <%=product.getPrice()%></h4>
 							</p>
 							<ul class="actions">
@@ -72,8 +69,8 @@
 									<a href="/product/detail?product_id=<%=product.getProduct_id()%>" class="button">자세히</a>
 								</li>
 							</ul>
-						</article>
-						<% }%>
+							</article>
+						<%}%>
 						<!-- 등록된 상품이 없는 경우 -->
 						<% if (productList.size() == 0) { %>
 						<article style="width: 100%">

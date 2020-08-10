@@ -30,7 +30,9 @@
 	
 	<select id="selectProductByCategory" parameterType="int" resultMap="joinMap">
 		select * from order_detail 
-		where product_id=#{product.product_id} and order_detail.state_id=1 or order_detail.state_id=2
+		inner join product 
+		on order_detail.product_id = product.product_id and product.category_id=#{category_id}
+		where order_detail.state_id=1 or order_detail.state_id=2
 	</select>
 	
 	<!-- <select id="selectProductByCategory" parameterType="int" resultMap="joinMap">

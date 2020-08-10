@@ -59,7 +59,7 @@
 <script>
 var category_id=<%=product.getCategory().getCategory_id()%>;
 var gfv_count =<%=productImageList.size()%>;
-
+var del_count = 0;
 $(function() {
 	if($("input:checkbox[name=demo-copy]").is(":checked") == true) {
 		$('#re_regdate').val("true");
@@ -70,10 +70,12 @@ $(function() {
 		e.preventDefault();
 		addFile();
 	});
+	
 	$("a[name='delete']").on("click", function(e) { //삭제 버튼 
 		e.preventDefault();
 		deleteFile($(this));
-	});
+	});  
+	
 	
 	//$('input[type="file"]'). change(function(e){
 	//	alert();
@@ -110,6 +112,10 @@ function addFile() {
 	});
 }
 
+function del(obj, filename) {
+	obj.parent().remove();
+	$("form").append("<input type='hidden' name='del_file' value='"+filename+"'>");
+} 
 function deleteFile(obj) {
 	obj.parent().remove();
 }
@@ -172,7 +178,8 @@ function update(){
 									<li>
 										<img src="/data/<%=productImage.getFilename() %>" width="200px">
 										<input type="file" name="filename_<%=i%>"> 
-										<a href='#this' name='delete'>삭제</a>
+										<!-- <a href='#this' name='delete'>삭제</a> -->
+										<a onClick="del($(this), '<%=productImage.getFilename() %>')" name='del'>삭제</a>
 									</li>
 									<%} %>
 									</p>

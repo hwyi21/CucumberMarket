@@ -3,7 +3,9 @@ package com.market.controller.product;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -89,14 +91,13 @@ public class ProductController {
 	//카테고리 별 상품 모아보기
 	@RequestMapping(value="/product/category", method = RequestMethod.GET)
 	public String selectCategoryProduct(Model model, HttpServletRequest request, @RequestParam int category_id) {
-		List productList = productService.selectCategoryProduct(category_id);
+		List productList = productService.selectProductByCategory(category_id);
 		List productImageList = new ArrayList();
-		List orderDetailList = new ArrayList();
+		//List orderDetailList = new ArrayList();
 		for(int i=0; i<productList.size();i++) {
-			Product product = (Product) productList.get(i);
-			int product_id=product.getProduct_id();
-			OrderDetail orderDetail = productService.selectDetail(product_id);
-			orderDetailList.add(orderDetail);
+			OrderDetail product = (OrderDetail) productList.get(i);
+			int product_id=product.getProduct().getProduct_id();
+			
 			if(product_id==0) {
 				continue;
 			}else {
@@ -107,7 +108,7 @@ public class ProductController {
 		//페이징 처리 객체 
 		pager.init(productList, request);
 		model.addAttribute("productList", productList);
-		model.addAttribute("orderDetailList", orderDetailList);
+		//model.addAttribute("orderDetailList", orderDetailList);
 		model.addAttribute("productImageList", productImageList);
 		model.addAttribute("pager", pager);
 		
@@ -160,15 +161,14 @@ public class ProductController {
 	
 	//상품 수정처리
 	@RequestMapping(value="/product/update", method = RequestMethod.POST)
-	public String updateForm(Model model, HttpServletRequest request, Product product, ProductImage productImage) {
+	public String updateProduct(Model model, HttpServletRequest request, Product product, ProductImage productImage) {
 		HttpSession session=request.getSession();
 		Member member = (Member)session.getAttribute("member");
 		product.setRe_regdate(request.getParameter("re_regdate"));
 		//System.out.println(request.getParameter("re_regdate")+"끌올"); //선택on 선택x false
 		productService.update(product, productImage, request);
 		
-		
-		model.addAttribute("msg", "수정 성공");
+		model.addAttribute("msg", "상품이 업데이트 되었습니다.");
 		model.addAttribute("url", "/product/detail?product_id="+product.getProduct_id());
 		return "view/message";
 	}

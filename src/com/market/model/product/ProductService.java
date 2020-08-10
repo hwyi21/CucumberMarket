@@ -61,8 +61,8 @@ public class ProductService {
 	}
 	
 	//카테고리별 상품 조회
-	public List selectCategoryProduct(int category_id) {
-		return productDAO.selectCategoryProduct(category_id);
+	public List selectProductByCategory(int category_id) {
+		return orderDetailDAO.selectProductByCategory(category_id);
 	}
 	
 	//상품 상세페이지 조회
@@ -70,9 +70,6 @@ public class ProductService {
 		return orderDetailDAO.select(product_id);
 	}
 	
-	public OrderDetail selectProductByCategory(int product_id) {
-		return orderDetailDAO.selectProductByCategory(product_id);
-	}
 	//상품 삭제 및 판매자가 상품 삭제 시 Order_Detail 테이블의 판매자 정보 및 상품 정보 업데이트 / 구매자가 없는 경우 order_detil 테이블의 내역 삭제
 	public void delete(int product_id, HttpServletRequest request) throws DMLException{
 		productDAO.delete(product_id);
@@ -107,7 +104,6 @@ public class ProductService {
 		Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
 		int i=0; //while문을 도는 횟수
 		int imageSize = list.size(); //디비에 저장되어 있는 해당 상품 관련 이미지 저장 파일 크기
-		ArrayList reRegist = new ArrayList(); //재 등록된 이미지 리스트
 		
 		while(iterator.hasNext()) {
 			MultipartFile multipartFile = multipartHttpServletRequest.getFile(iterator.next());
@@ -119,7 +115,6 @@ public class ProductService {
 					if(ori.isEmpty()==false) { //원래 있던 파일이 삭제되고 다른 이미지가 들어간것으로 간주
 						ProductImage img = (ProductImage) list.get(i);
 						productImageDAO.deleteImg(img.getImage_id());
-						FileManager.removeFile(realPath+img.getFilename());
 						List<Map<String,Object>> save = FileManager.saveOneFile(multipartFile, ori, realPath);
 						String original_filename = (String) save.get(0).get("original_filename");
 						String filename = (String) save.get(0).get("filename");
@@ -128,48 +123,18 @@ public class ProductService {
 						productImageDAO.insert(productImage);
 					}
 				}else if(i!=j){//j와 while문을 돈 횟수가 같지 않다
-					if(ori.isEmpty()) { // 넘어온 파일명이 같지 않다면 원래 i에 있던 파일은 삭제된 이미지로 간주
-						System.out.println("i!=j empty 실행");
+					if(ori.isEmpty()) { 
+						// 넘어온 파일명이 널값이라면 원래 i에 있던 파일은 삭제된 이미지로 간주 
+						// j번째 파일은 새로 등록
+						ProductImage image = (ProductImage) list.get(i);
+						productImageDAO.deleteImg(image.getImage_id());
 						ProductImage img = (ProductImage)list.get(j);
 						productImage.setOriginal_filename(img.getOriginal_filename());
 						productImage.setFilename(img.getFilename());
 						productImageDAO.insert(productImage);
-						reRegist.add(j);
-						if(i==0) {
-							ProductImage image = (ProductImage)list.get(i);
-							productImageDAO.deleteImg(image.getImage_id());
-							FileManager.removeFile(realPath+image.getFilename());
-						}else {
-							ProductImage image = (ProductImage)list.get(i);
-							productImageDAO.deleteImg(image.getImage_id());
-							for(int n=0; n<reRegist.size(); n++) {
-								Object obj = reRegist.get(n);
-								int v=0; // 중복 판단
-								for(int m=i; m<j; m++) { //i번 부터 j 번까지 반복
-									if(m==Integer.parseInt(obj.toString())) { //reRist에 담긴 번호와 겹치는 m이 있다면 중복
-										v++;
-									}
-								}
-								if(v==0) { // 중복된게 없다면 이미지파일 삭제
-									FileManager.removeFile(realPath+image.getFilename());
-								}
-							}
-							/*int size = jj.size();
-							Object last = jj.get(size);
-							Object last2 = jj.get(size-1);
-							int num = Integer.parseInt(last.toString());
-							int num2 =Integer.parseInt(last2.toString());
-							for(int n=(num2+1); n<num; n++) {
-								ProductImage image = (ProductImage)list.get(n);
-								productImageDAO.deleteImg(image.getImage_id());
-								FileManager.removeFile(realPath+image.getFilename());
-							}*/
-						}
-					}else {
-						System.out.println("else 실행");
+					}else { //새롭게 등록된 파일
 						ProductImage img = (ProductImage) list.get(i);
 						productImageDAO.deleteImg(img.getImage_id());
-						FileManager.removeFile(realPath+img.getFilename());
 						List<Map<String,Object>> save = FileManager.saveOneFile(multipartFile, ori, realPath);
 						String original_filename = (String) save.get(0).get("original_filename");
 						String filename = (String) save.get(0).get("filename");
@@ -179,7 +144,6 @@ public class ProductService {
 					}
 				}
 			}else if(imageSize<=i) { // 새롭게 등록한 이미지 파일 insert
-				System.out.println("imageSize<=i 실행");
 				List<Map<String,Object>> save = FileManager.saveOneFile(multipartFile, ori, realPath);
 				String original_filename = (String) save.get(0).get("original_filename");
 				String filename = (String) save.get(0).get("filename");
@@ -189,50 +153,22 @@ public class ProductService {
 			}
 			i++;
 		}
-		if(imageSize-i>0) { //디비에 저장되어 있는 imageSize보다 while문을 실행한 횟수가 작거나 같다면 i번째 부터디비에 남아있는 나머지 데이터를 지우기
-			System.out.println("실행");
-			
-			for(int j=(i); j<imageSize;j++) {
+		if(imageSize-i>0) { //디비에 저장되어 있는 imageSize보다 while문을 실행한 횟수가 작거나 같다면 i번째 부터 디비에 남아있는 나머지 데이터를 지우기
+			for(int j=i; j<imageSize;j++) {
 				ProductImage img = (ProductImage)list.get(j);
 				productImageDAO.deleteImg(img.getImage_id());
 			}
-			for(int m=0; m<reRegist.size(); m++) {
-				Object obj = reRegist.get(m);
-				int v=0;
-				System.out.println(Integer.parseInt(obj.toString())+"obj");
-				ProductImage img = null;
-				for(int j=i; j<imageSize; j++) {
-					img = (ProductImage)list.get(j);
-					if(j==Integer.parseInt(obj.toString())) {
-						v++;
-					}
-				}
-				System.out.println(v + "v");
-				if(v==0) {
-					//FileManager.removeFile(realPath+img.getFilename());
-				}
-			}
-			/*for(int m=0;m<jj.size();m++) {
-				Object obj = jj.get(m);
-				for(int j=(i); j<imageSize;j++) {
-					System.out.println(Integer.parseInt(obj.toString())+"obj");
-					System.out.println(j+"디비");
-					if(j>Integer.parseInt(obj.toString())) {
-						break;
-					}
-					if(j!=Integer.parseInt(obj.toString())&&j<=Integer.parseInt(obj.toString())) {
-						System.out.println("삭제");
-						System.out.println(Integer.parseInt(obj.toString())+"obj");
-						System.out.println(j+"디비");
-						System.out.println("------------------------------");
-						ProductImage img = (ProductImage)list.get(j);
-						FileManager.removeFile(realPath+img.getFilename());
-					}
-				}
-				
-			}*/
-			
 		}
+		
+		//이미지 파일 삭제
+		Map<String, String[]> map = request.getParameterMap();
+		String[] obj = map.get("del_file");
+		if(obj!=null) {
+			for(int j=0; j<obj.length; j++) {
+				FileManager.removeFile(realPath+obj[j]);
+			}
+		}
+		
 	}
 
 }

@@ -25,10 +25,7 @@ public class ProductDAO {
 	public Product select(int product_id) {
 		return sessionTemplate.selectOne("Product.select", product_id);
 	}*/
-	
-	public List selectCategoryProduct(int category_id) {
-		return sessionTemplate.selectList("Product.selectCategoryProduct", category_id);
-	}
+
 	
 	public void insert(Product product) throws DMLException{
 		int result = sessionTemplate.insert("Product.insert", product);
