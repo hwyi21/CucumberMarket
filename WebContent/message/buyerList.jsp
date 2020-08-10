@@ -3,7 +3,7 @@
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-	List<Message> messageList = (List)request.getAttribute("messageList");
+	List<Message> messageInfo = (List)request.getAttribute("messageInfo");
 	Pager  pager = (Pager) request.getAttribute("pager");
 %>
 <!DOCTYPE HTML>
@@ -112,12 +112,12 @@ function messageForm(product_id, member){
 						<h2>거래 상대를 골라주세요</h2> 
 					</header>
 					<div class="features" id="features">
-						<input type="hidden" id="messageList" value="<%=messageList.size()%>">
+						<input type="hidden" id="messageList" value="<%=messageInfo.size()%>">
 						<% int curPos = pager.getCurPos(); %>
 						<% int num = pager.getNum();%>
 						<% for (int i = 0; i < pager.getPageSize(); i++) { %>
 						<% if (num < 1) break; %>
-						<%Message message=messageList.get(curPos++); %>
+						<%Message message=messageInfo.get(curPos++); %>
 						<input type="hidden" value="<%=num--%>" /> 
 						<input type="hidden" id="product_id" name="product_id" value="<%=message.getProduct().getProduct_id()%>"/>
 						<input type="hidden" id="team" name="team" value="<%=message.getTeam()%>"/>

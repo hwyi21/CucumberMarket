@@ -140,14 +140,20 @@ public class MessageController {
 	
 	//대화 목록 가져오기
 	@RequestMapping(value="/choose/buyer", method=RequestMethod.GET)
-	public String getBuyer(Model model, Message message, HttpServletRequest request, @RequestParam int product_id) {
+	public String getBuyer(Model model, HttpServletRequest request, @RequestParam int product_id) {
 		HttpSession session=request.getSession();
 		Member member = (Member)session.getAttribute("member");
-		
 		List messageList = messageService.selectBuyer(product_id);
-		
-		pager.init(messageList, request);
-		model.addAttribute("messageList", messageList);
+		List<Message> messageInfo = new ArrayList<Message>();
+		for(int i=0; i<messageList.size();i++) {
+			Message message= (Message) messageList.get(i);
+			message.setProduct(message.getProduct());
+			message.setTeam(message.getTeam());
+			List list = messageService.selectMessage(message);
+			messageInfo.add((Message) list.get(0));
+		}
+		pager.init(messageInfo, request);
+		model.addAttribute("messageInfo", messageInfo);
 		model.addAttribute("pager", pager);
 		return "message/buyerList";
 	}

@@ -5,6 +5,7 @@
 <%@page import="com.market.domain.Product"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	List<OrderDetail> productList = (List) request.getAttribute("productList");
 	//List<OrderDetail> orderDetailList = (List) request.getAttribute("orderDetailList");
@@ -62,7 +63,7 @@
 							<p>
 								<%=saler.getLocate()%> <%if(product.getRe_regdate()!=null){%>끌올<%} %>
 								<%if(state.getState_id()!=1){%><h5 style="color:green; font-weight:bold"><%=state.getState_title()%></h5><%}%>
-								<h4>가격 : <%=product.getPrice()%></h4>
+								<h4>가격 : <fmt:formatNumber value="<%=product.getPrice() %>" pattern="#,###"/> 원</h4>
 							</p>
 							<ul class="actions">
 								<li>

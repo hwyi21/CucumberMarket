@@ -37,8 +37,9 @@
 	</select>
 	
 	<select id="selectBuyer" parameterType="int" resultMap="joinMap">
-		select * from message
+		select product_id, team from message
 		where product_id=#{product.product_id}
+		group by product_id, team
 	</select>
 	
 	<!-- 대화 목록 조회 -->

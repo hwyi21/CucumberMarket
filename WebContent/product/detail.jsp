@@ -3,6 +3,7 @@
 <%@page import="com.market.domain.Product"%>
 <%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	Product product = (Product)request.getAttribute("product");
 	Member saler = (Member)request.getAttribute("saler");
@@ -235,7 +236,8 @@ function del(){
 						<%}else{ %>끌올
 						<%=product.getRe_regdate() %>
 						<%} %>
-						<br>
+						<br><br>
+						<h4>가격 : <fmt:formatNumber value="<%=product.getPrice() %>" pattern="#,###"/> 원</h4>
 						<h4><%=product.getContent() %></h4><br>
 						</p>
 					</div>
