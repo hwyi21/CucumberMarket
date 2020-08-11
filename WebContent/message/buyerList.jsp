@@ -90,7 +90,7 @@ function getConversationInfo(){
 
 //Order_detail 구매자 등록
 function messageForm(product_id, member){
-	location.href="/success?product_id="+product_id+"&&buyer_id="+member;
+	location.href="/success?product_id="+product_id+"&buyer_id="+member;
 }
 
 </script>
@@ -134,18 +134,18 @@ function messageForm(product_id, member){
 						<%int totalPage=pager.getTotalPage(); %>
 						<%int currentPage=pager.getCurrentPage(); %>
 						<%if(firstPage-1 > 1){%>
-						<li><a href="/product?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
+						<li><a href="/message/buyerList?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
 				        <%}else{%>
 				        <li><span class="button disabled">Prev</span></li>
 				        <%}%>
 						<% for(int i=firstPage; i<=lastPage; i++){ %>
         				<%if(i>totalPage) break; %>
-        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/message/list?currentPage=<%=i%>"><%= i %></a></li>
+        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/message/buyerList?currentPage=<%=i%>"><%= i %></a></li>
         				<% } %>
 						 <%if((lastPage+1)>totalPage) {%>
 				        <li><span class="button disabled">Next</span></li>
 				        <%}else{%>
-				        <li><a href="/message/list?currentPage=<%=lastPage+1%>" class="button">Next</a></li>
+				        <li><a href="/message/buyerList?currentPage=<%=lastPage+1%>" class="button">Next</a></li>
 				        <%}%>
 					</ul>
 				</section>

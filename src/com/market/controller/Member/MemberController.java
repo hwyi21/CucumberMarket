@@ -1,5 +1,7 @@
 package com.market.controller.member;
 
+import java.io.UnsupportedEncodingException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.market.domain.Member;
 import com.market.domain.Message;
 import com.market.domain.OrderDetail;
+import com.market.exception.DMLException;
 import com.market.model.member.MemberService;
 
 @Controller
@@ -23,7 +26,7 @@ public class MemberController {
 
 	//회원가입
 	@RequestMapping(value = "/member/regist", method = RequestMethod.POST)
-	public String regist(Model model, Member member) {
+	public String regist(Model model, Member member) throws UnsupportedEncodingException{
 		memberService.insert(member);
 		model.addAttribute("msg", "회원가입 성공!");
 		model.addAttribute("url", "/member/loginForm.jsp");
@@ -33,7 +36,7 @@ public class MemberController {
 
 	//로그인
 	@RequestMapping(value="/member/login", method=RequestMethod.POST)
-	public String loginCheck(Member member, HttpServletRequest request) {
+	public String loginCheck(Member member, HttpServletRequest request) throws UnsupportedEncodingException{
 		Member obj = memberService.loginCheck(member);
 
 		//로그인 성공시 세션 유지
@@ -54,16 +57,5 @@ public class MemberController {
 		return "view/message";
 	}
 	
-	@RequestMapping(value="/chat/info", method=RequestMethod.POST)
-	@ResponseBody
-	public String getChatInfo(Model model, HttpServletRequest request, @RequestParam int member_id) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
-		
-		Member chatInfo = memberService.select(member_id);
-		String id = chatInfo.getId();
-		
-		return id;
-	}
 
 }

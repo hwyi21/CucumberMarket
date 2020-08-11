@@ -29,6 +29,11 @@ public class MemberDAO {
 		return obj;
 	}
 	
+	//난수 가져오기
+	public String selectSalt(String id){
+		return sessionTemplate.selectOne("Member.selectSalt", id);
+	}
+	
 	public Member select(int member_id) {
 		return sessionTemplate.selectOne("Member.select", member_id);
 	}

@@ -140,8 +140,6 @@ public class ProductController {
 	//상품 삭제 페이지
 	@RequestMapping(value="/product/delete", method= RequestMethod.POST)
 	public String productDelete(Model model, HttpServletRequest request, @RequestParam int product_id) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
 		String realPath=request.getServletContext().getRealPath("/data/");
 		productService.delete(product_id, request);
 		
@@ -153,9 +151,6 @@ public class ProductController {
 	//상품 수정 페이지
 	@RequestMapping(value="/product/updateForm", method = RequestMethod.GET)
 	public String updateForm(Model model, HttpServletRequest request, @RequestParam int product_id) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
-		
 		OrderDetail orderDetail = productService.selectDetail(product_id);
 		Product product = orderDetail.getProduct();
 		List productImageList = productImageService.selectAll(product_id);
@@ -168,8 +163,6 @@ public class ProductController {
 	//상품 수정처리
 	@RequestMapping(value="/product/update", method = RequestMethod.POST)
 	public String updateProduct(Model model, HttpServletRequest request, Product product, ProductImage productImage) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
 		product.setRe_regdate(request.getParameter("re_regdate"));
 		//System.out.println(request.getParameter("re_regdate")+"끌올"); //선택on 선택x false
 		productService.update(product, productImage, request);
@@ -182,8 +175,6 @@ public class ProductController {
 	//상품 수정처리
 	@RequestMapping(value="/success", method = RequestMethod.GET)
 	public String updateBuyer(Model model, HttpServletRequest request, OrderDetail orderDetail, @RequestParam int product_id, @RequestParam int buyer_id) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
 		orderDetail = productService.selectDetail(product_id);
 		orderDetail.setProduct(orderDetail.getProduct());
 		orderDetail.setBuyer_id(buyer_id);

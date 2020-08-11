@@ -92,7 +92,7 @@ function getConversationInfo(){
 function messageForm(product, group){
 	var product_id=product;
 	var team=group;
-	location.href="/chat?product_id="+product_id+"&&team="+team;
+	location.href="/chat?product_id="+product_id+"&team="+team;
 	
 }
 </script>
@@ -136,7 +136,7 @@ function messageForm(product, group){
 						<%int totalPage=pager.getTotalPage(); %>
 						<%int currentPage=pager.getCurrentPage(); %>
 						<%if(firstPage-1 > 1){%>
-						<li><a href="/product?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
+						<li><a href="/message/list?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
 				        <%}else{%>
 				        <li><span class="button disabled">Prev</span></li>
 				        <%}%>

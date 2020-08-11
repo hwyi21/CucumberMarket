@@ -7,9 +7,13 @@
 		where id=#{id} and password=#{password}
 	</select>
 	
+	<select id="selectSalt" parameterType="String" resultType="String">
+		select salt from member where id=#{id}
+	</select>
+	
 	<insert id="insert">
-		insert into member(member_id, id, password, locate)
-		values(seq_member.nextval, #{id}, #{password}, #{locate})
+		insert into member(member_id, id, password, locate, salt)
+		values(seq_member.nextval, #{id}, #{password}, #{locate}, #{salt})
 	</insert>
 	
 	<select id="select" parameterType="int" resultType="Member">

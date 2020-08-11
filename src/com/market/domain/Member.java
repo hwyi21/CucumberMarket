@@ -6,7 +6,7 @@ public class Member {
 	private String password;
 	private String locate;
 	private String regdate;
-	
+	private String salt;
 	public int getMember_id() {
 		return member_id;
 	}
@@ -36,6 +36,12 @@ public class Member {
 	}
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
+	}
+	public String getSalt() {
+		return salt;
+	}
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 	
 	

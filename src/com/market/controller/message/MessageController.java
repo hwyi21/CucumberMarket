@@ -3,7 +3,6 @@ package com.market.controller.message;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +21,7 @@ import com.market.domain.Member;
 import com.market.domain.Message;
 import com.market.domain.OrderDetail;
 import com.market.domain.Product;
+import com.market.model.member.MemberService;
 import com.market.model.message.MessageService;
 import com.market.model.product.ProductService;
 
@@ -34,13 +34,24 @@ public class MessageController {
 	private MessageService messageService;
 	
 	@Autowired
+	private MemberService memberService;
+	
+	@Autowired
 	private Pager pager;
+	
+	//메세지를 주고 받은 회원의 아이디 구하기
+	@RequestMapping(value="/chat/info", method=RequestMethod.POST)
+	@ResponseBody
+	public String getChatInfo(Model model, HttpServletRequest request, @RequestParam int member_id) {
+		Member chatInfo = memberService.select(member_id);
+		String id = chatInfo.getId();
+		
+		return id;
+	}
 	
 	//대화 폼 불러오기
 	@RequestMapping(value="/chat", method=RequestMethod.GET)
 	public String messageForm(Model model, HttpServletRequest request, @RequestParam int product_id, @RequestParam int team) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
 		String referer = request.getHeader("referer");
 		String getUri = null;
 		try {
@@ -67,8 +78,6 @@ public class MessageController {
 	@RequestMapping(value="/chat/send", method=RequestMethod.POST)
 	@ResponseBody
 	public String send(Message message, HttpServletRequest request, @RequestParam int product_id, @RequestParam int member_id) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
 		OrderDetail orderDetail= productService.selectDetail(product_id);
 		message.setMember(orderDetail.getMember());
 		message.setProduct(orderDetail.getProduct());
@@ -87,8 +96,6 @@ public class MessageController {
 	@RequestMapping(value="/chat/get", method=RequestMethod.GET, produces="text/html;charset=utf8")
 	@ResponseBody
 	public String selectAll(Message message, HttpServletRequest request, @RequestParam int product_id, @RequestParam String team) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
 		OrderDetail orderDetail= productService.selectDetail(product_id);
 		int group = Integer.parseInt(team);
 		message.setProduct(orderDetail.getProduct());
@@ -124,6 +131,7 @@ public class MessageController {
 		Member member = (Member)session.getAttribute("member");
 		int member_id = member.getMember_id();
 		List messageList = messageService.select(member_id);
+		
 		List<Message> messageInfo = new ArrayList<Message>();
 		for(int i=0; i<messageList.size();i++) {
 			Message message= (Message) messageList.get(i);
@@ -141,8 +149,6 @@ public class MessageController {
 	//대화 목록 가져오기
 	@RequestMapping(value="/choose/buyer", method=RequestMethod.GET)
 	public String getBuyer(Model model, HttpServletRequest request, @RequestParam int product_id) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
 		List messageList = messageService.selectBuyer(product_id);
 		List<Message> messageInfo = new ArrayList<Message>();
 		for(int i=0; i<messageList.size();i++) {

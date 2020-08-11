@@ -54,8 +54,6 @@ public class StateController {
 	@RequestMapping(value="/state/update", method=RequestMethod.POST)
 	@ResponseBody
 	public String send(Message message, HttpServletRequest request, @RequestParam int product_id, @RequestParam int state_id) {
-		HttpSession session=request.getSession();
-		Member member = (Member)session.getAttribute("member");
 		State state = stateService.select(state_id);
 		OrderDetail orderDetail = productService.selectDetail(product_id);
 		orderDetail.setState(state);

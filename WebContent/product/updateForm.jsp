@@ -75,11 +75,7 @@ $(function() {
 		e.preventDefault();
 		deleteFile($(this));
 	});  
-	
-	
-	//$('input[type="file"]'). change(function(e){
-	//	alert();
-	//});
+
 });
 function getCategoryList(){
 	$.ajax({
@@ -112,6 +108,7 @@ function addFile() {
 	});
 }
 
+/*이미지 파일 삭제시 hidden으로 파일명 넘기기  */
 function del(obj, filename) {
 	obj.parent().remove();
 	$("form").append("<input type='hidden' name='del_file' value='"+filename+"'>");

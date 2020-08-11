@@ -90,18 +90,18 @@
 						<%int totalPage=pager.getTotalPage(); %>
 						<%int currentPage=pager.getCurrentPage(); %>
 						<%if(firstPage-1 > 1){%>
-						<li><a href="/product?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
+						<li><a href="/mypage/buyList?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
 				        <%}else{%>
 				        <li><span class="button disabled">Prev</span></li>
 				        <%}%>
 						<% for(int i=firstPage; i<=lastPage; i++){ %>
         				<%if(i>totalPage) break; %>
-        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/product?currentPage=<%=i%>"><%= i %></a></li>
+        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/mypage/buyList?currentPage=<%=i%>"><%= i %></a></li>
         				<% } %>
 						 <%if((lastPage+1)>totalPage) {%>
 				        <li><span class="button disabled">Next</span></li>
 				        <%}else{%>
-				        <li><a href="/product?currentPage=<%=lastPage+1%>" class="button">Next</a></li>
+				        <li><a href="/mypage/buyList?currentPage=<%=lastPage+1%>" class="button">Next</a></li>
 				        <%}%>
 					</ul>
 				</section>
