@@ -3,7 +3,7 @@ package com.market.controller.product;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.market.controller.common.Pager;
+import com.market.domain.BookmarkProduct;
 import com.market.domain.Member;
 import com.market.domain.OrderDetail;
 import com.market.domain.Product;
 import com.market.domain.ProductImage;
+import com.market.model.mypage.MyPageService;
 import com.market.model.product.ProductImageService;
 import com.market.model.product.ProductService;
 
@@ -33,6 +35,9 @@ public class ProductController {
 	
 	@Autowired 
 	private ProductImageService productImageService;
+	
+	@Autowired
+	private MyPageService myPageService;
 	
 	@Autowired
 	private Pager pager;
@@ -116,6 +121,9 @@ public class ProductController {
 	//상품 상세 페이지
 	@RequestMapping(value="/product/detail", method = RequestMethod.GET)
 	public String productDetail(Model model, HttpServletRequest request, @RequestParam int product_id) {
+		HttpSession session=request.getSession();
+		Member member = (Member)session.getAttribute("member");
+		Map map = new HashMap<String, Object>();
 		String referer = request.getHeader("referer");
 		String getUri = null;
 		try {
@@ -128,11 +136,19 @@ public class ProductController {
 		Product product = orderDetail.getProduct();
 		Member saler = orderDetail.getMember();
 		List productImageList = productImageService.selectAll(product_id);
+		if(member!=null) {
+			int member_id=member.getMember_id();
+			map.put("member", member);
+			map.put("product", product);
+			BookmarkProduct bookmarkProduct = myPageService.select(map);
+			model.addAttribute("bookmarkProduct", bookmarkProduct);
+		}
 		
 		model.addAttribute("product", product);
 		model.addAttribute("orderDetail", orderDetail);
 		model.addAttribute("saler", saler);
 		model.addAttribute("getUri", getUri);
+		
 		model.addAttribute("productImageList", productImageList);
 		return "product/detail";
 	}

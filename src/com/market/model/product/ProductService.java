@@ -60,6 +60,15 @@ public class ProductService {
 		return orderDetailDAO.selectProduct(address);
 	}
 	
+	//상품 한건 조회
+	public Product select(int product_id) {
+		return productDAO.select(product_id);
+	}
+	
+	public OrderDetail selectJoin(int product_id) {
+		return orderDetailDAO.selectJoin(product_id);
+	}
+	
 	//카테고리별 상품 조회
 	public List selectProductByCategory(int category_id) {
 		return orderDetailDAO.selectProductByCategory(category_id);

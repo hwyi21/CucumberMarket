@@ -1,3 +1,4 @@
+<%@page import="com.market.domain.BookmarkProduct"%>
 <%@page import="com.market.domain.OrderDetail"%>
 <%@page import="com.market.domain.ProductImage"%>
 <%@page import="com.market.domain.Product"%>
@@ -8,9 +9,16 @@
 	Product product = (Product)request.getAttribute("product");
 	Member saler = (Member)request.getAttribute("saler");
 	OrderDetail orderDetail = (OrderDetail)request.getAttribute("orderDetail");
+	BookmarkProduct bookmarkProduct = (BookmarkProduct)request.getAttribute("bookmarkProduct");
 	List<ProductImage> productImageList = (List) request.getAttribute("productImageList");
 	Object uri = request.getAttribute("getUri");
 	String getUri = uri.toString();
+	String flag = "true";
+	if(bookmarkProduct==null){
+		flag="false";
+	}else{
+		flag="true";
+	}
 %>
 <!DOCTYPE HTML>
 <!--
@@ -113,16 +121,14 @@ img {
 <script>
 var state_id=<%=orderDetail.getState().getState_id()%>;
 var order=<%=orderDetail.getProduct().getProduct_id()%>;
+var flag = <%=flag%>
 $(function() {
 	getStateList(); //거래 상태 목록 가져오기
-	
 	$("#demo-category").change(function(){
 		updateState(order);
 	});
 	
 });
-
-
 
 function getStateList(){
 	$.ajax({
@@ -179,7 +185,44 @@ function del(){
 		$("form").submit();
 	}
 }
-
+function bookMark(product){
+	if(flag==false){
+		if(confirm("관심상품에 추가하시겠습니까?")){
+			$.ajax({
+				"url":"/add/bookmark",
+				"type":"get",
+				"data":{
+					product_id:product
+				},
+				success:function(data){
+					if(data==1){
+						alert("관심상품으로 등록됐습니다.");
+						document.getElementById('img').src="/images/icon/green_heart.png";
+						flag=true;
+					}
+				}
+			});
+		}
+	}else if(flag==true){
+		if(confirm("관심상품에서 해제하시겠습니까?")){
+			$.ajax({
+				"url":"/delete/bookmark",
+				"type":"get",
+				"data":{
+					product_id:product
+				},
+				success:function(data){
+					if(data==1){
+						alert("관심상품에서 해제되었습니다.");
+						document.getElementById('img').src="/images/icon/heart2.png";
+						flag = false;
+					}
+				}
+			});
+		}
+	}
+	
+}
 </script>
 </head>
 <body class="is-preload">
@@ -246,7 +289,7 @@ function del(){
 						<ul class="actions">
 						<li>
 							<a href="/product/category?category_id=<%=product.getCategory().getCategory_id() %>" class="button">목록</a>
-							<a href="/chat?product_id=<%=product.getProduct_id()%>&&team=0" class="button">거래 메시지 보내기</a>
+							<a href="/chat?product_id=<%=product.getProduct_id()%>&team=0" class="button">거래 메시지 보내기</a>
 						</li>
 					</ul>
 					<%}else if(member!=null){ %>
@@ -262,11 +305,17 @@ function del(){
 										<%}else{ %>
 										<a onclick="history.back()" class="button">목록</a>
 										<%} %>
+										
 									</li>
 								</ul>
 						<%}else{  %>
 						<ul class="actions">
 							<li>
+								<%if(bookmarkProduct==null){ %>
+								<a onclick="bookMark('<%=product.getProduct_id()%>')" ><img id="img"  src="/images/icon/heart2.png" style="width:5%; position:relative; margin-right:10px;"></a>
+								<%}else{ %>
+								<a onclick="bookMark('<%=product.getProduct_id()%>')"><img id="img"  src="/images/icon/green_heart.png" style="width:5%; position:relative; margin-right:10px;"></a>
+								<%} %>
 								<%if(getUri.equals("/product")){%>
 								<a href="/product" class="button">목록</a>
 								<%}else if(getUri.equals("/product/category")){ %>
@@ -274,7 +323,7 @@ function del(){
 								<%}else{ %>
 								<a onclick="history.back()" class="button">목록</a>
 								<%} %>
-								<a href="/chat?product_id=<%=product.getProduct_id()%>&&team=0" class="button">거래 메시지 보내기</a>
+								<a href="/chat?product_id=<%=product.getProduct_id()%>&team=0" class="button">거래 메시지 보내기</a>
 							</li>
 						</ul>
 						<%} %>

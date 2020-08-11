@@ -23,6 +23,7 @@ import com.market.domain.OrderDetail;
 import com.market.domain.Product;
 import com.market.model.member.MemberService;
 import com.market.model.message.MessageService;
+import com.market.model.product.ProductImageService;
 import com.market.model.product.ProductService;
 
 @Controller
@@ -35,6 +36,9 @@ public class MessageController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private ProductImageService productImageService;
 	
 	@Autowired
 	private Pager pager;
@@ -61,6 +65,7 @@ public class MessageController {
 			e.printStackTrace();
 		}
 		OrderDetail orderDetail = productService.selectDetail(product_id);
+		List productImageList = productImageService.selectAll(product_id);
 		if(team!=0) {
 			Product product = orderDetail.getProduct();
 			Message message = new Message();
@@ -70,6 +75,7 @@ public class MessageController {
 			model.addAttribute("messageList", messageList);
 		}
 		model.addAttribute("orderDetail", orderDetail);
+		model.addAttribute("productImageList", productImageList);
 		model.addAttribute("getUri", getUri);
 		return "message/messageForm";
 	}

@@ -20,11 +20,11 @@ public class ProductDAO {
 		return sessionTemplate.selectList("Product.selectAll");
 	}*/
 	
-	// 상품 상세페이지 조회
-	/*
-	public Product select(int product_id) {
-		return sessionTemplate.selectOne("Product.select", product_id);
-	}*/
+	// 상품 한건 가져오기
+	public Product select(int product_id) { 
+		return sessionTemplate.selectOne("Product.select", product_id); 
+	}
+	 
 
 	
 	public void insert(Product product) throws DMLException{

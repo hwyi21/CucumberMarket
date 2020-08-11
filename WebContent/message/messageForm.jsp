@@ -1,3 +1,5 @@
+<%@page import="com.market.domain.ProductImage"%>
+<%@page import="com.market.domain.Product"%>
 <%@page import="com.market.domain.Message"%>
 <%@page import="java.util.List"%>
 <%@page import="com.market.domain.OrderDetail"%>
@@ -5,6 +7,7 @@
 <%
 	OrderDetail orderDetail=(OrderDetail)request.getAttribute("orderDetail");
 	List<Message> messageList=(List)request.getAttribute("messageList");
+	List<ProductImage> productImageList=(List)request.getAttribute("productImageList");
 	Object uri = request.getAttribute("getUri");
 	String getUri = uri.toString();
 %>
@@ -69,14 +72,15 @@ function getConversationInfo(sender){
 	$.ajax({
 		"url":"/chat/info",
 		"type":"post",
+		"async":false,
 		"data":{
 			member_id:member
 		},
 		success:function(data){
 			if(member==sender){
-				$("#contentArea").append("<div name='writer_"+(writer_count++)+"' style='width:30%; text-align:right;margin-right:10px;'>["+data+"]</div>");
+				$("#contentArea").append("<div name='writer_"+(writer_count++)+"' style='color:green; text-align:right;'>["+data+"]</div>");
 			}else{
-				$("#contentArea").append("<div name='writer_"+(writer_count++)+"' style='width:30%; text-align:left;margin-right:10px;'>["+data+"]</div>");
+				$("#contentArea").append("<div name='writer_"+(writer_count++)+"' style='color:black; text-align:left;'>["+data+"]</div>");
 			}
 		}
 	});
@@ -99,10 +103,10 @@ function getList(data){
 			for(var i=0; i<json.messageList.length;i++){
 				var obj=json.messageList[i];
 				if(obj.sender==sender){
-					//getConversationInfo(obj.sender);
+					getConversationInfo(obj.sender);
 					$("#contentArea").append("<div name='content_"+(content_count++)+"'style='word-break:break-all; word-wrap:break-word; text-align:right'>"+obj.content+"</div>");
 				}else{
-					//getConversationInfo(obj.sender);
+					getConversationInfo(obj.sender);
 					$("#contentArea").append("<div name='content_"+(content_count++)+"'style='word-break:break-all; word-wrap:break-word; text-align:left'>"+obj.content+"</div>");
 				}
 				
@@ -125,16 +129,15 @@ function getList(data){
 				<!-- Content -->
 				<section>
 					<input type="hidden" name="product_id" value="<%=orderDetail.getProduct().getProduct_id()%>" />
+					<div class="box" style="height:150px; overflow:hidden; display:flex;">
+						<%Product product=orderDetail.getProduct(); 
+						ProductImage productImage = productImageList.get(0);%>
+						<img src="/data/<%=productImage.getFilename()%>" style="width:100px; align:left; float:left; margin-right:10px">
+						<h3 style="margin-top:40px;"><%=product.getTitle() %></h3>
+						
+					</div>
 					<div class="box" style="scroll:auto">
 						<div id="contentArea"></div>
-							<%-- <%for(int i=0;i<messageList.size();i++){ %>
-								<%Message message=messageList.get(i); %>
-								<%if(message.getSender()==member.getMember_id()){%>
-								<div id="contentArea" style="align:right"></div>
-								<%}else{ %>
-								<div id="contentArea" style="align:left"></div>
-								<%}%>
-							<%}%> --%>
 					</div>
 					<div>
 						<input type="hidden" name="sender" value="<%=member.getMember_id()%>" />

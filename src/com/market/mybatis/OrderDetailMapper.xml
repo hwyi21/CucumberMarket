@@ -30,6 +30,15 @@
 		where product_id=#{product_id}
 	</select>
 	
+	<select id="selectJoin" parameterType="int" resultMap="joinMap">
+		select * 
+		from order_detail
+		inner join product
+		on product.product_id = order_detail.product_id
+		where order_detail.product_id=#{product.product_id}
+	</select>
+	
+	<!-- 카테고리별 상품 보기 -->
 	<select id="selectProductByCategory" parameterType="int" resultMap="joinMap">
 		select * from order_detail 
 		inner join product 
@@ -61,7 +70,7 @@
 	
 	<!-- 상품 거래 상태 업데이트 -->
 	<update id="updateState" parameterType="OrderDetail">
-		update order_detail set state_id=#{state.state_id}
+		update order_detail set state_id=#{state.state_id}, buyer_id=0
 		where product_id=#{product.product_id}
 	</update>
 	

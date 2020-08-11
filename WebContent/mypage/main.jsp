@@ -50,7 +50,7 @@
 								<h3>구매내역</h3>
 							</div>
 						</article>
-						<article onclick="location.href='/product/category?category_id='">
+						<article onclick="location.href='/mypage/bookmark'">
 							<span class="icon" ><img class="category_icon" src="/images/icon/heart.png"></span>
 							<div class="content">
 								<h3>관심 상품</h3>
