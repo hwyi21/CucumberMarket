@@ -285,6 +285,7 @@ function bookMark(product){
 						</p>
 					</div>
 					</form>
+					<!-- 비로그인 회원 -->
 					<%if(member==null){ %>
 						<ul class="actions">
 						<li>
@@ -292,6 +293,8 @@ function bookMark(product){
 							<a href="/chat?product_id=<%=product.getProduct_id()%>&team=0" class="button">거래 메시지 보내기</a>
 						</li>
 					</ul>
+					
+					<!-- 로그인한 사람이 판매자인 경우 -->
 					<%}else if(member!=null){ %>
 						<%if(member.getMember_id()==saler.getMember_id()){ %>
 							<ul class="actions">
@@ -308,6 +311,7 @@ function bookMark(product){
 										
 									</li>
 								</ul>
+						<!-- 로그인한 사람이 판매자가 아닌 경우 -->		
 						<%}else{  %>
 						<ul class="actions">
 							<li>

@@ -20,7 +20,7 @@
 		from order_detail
 		inner join member 
 		on member.member_id=order_detail.member_id 
-		where member.locate like '%'||#{address}||'%' and order_detail.state_id=1 or order_detail.state_id=2 
+		where member.locate like '%'||#{address}||'%' and (order_detail.state_id=1 or order_detail.state_id=2) 
 	</select>
 	
 	<!-- 상품 상세 페이지 조회 -->

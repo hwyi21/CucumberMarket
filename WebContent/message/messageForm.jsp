@@ -10,6 +10,7 @@
 	List<ProductImage> productImageList=(List)request.getAttribute("productImageList");
 	Object uri = request.getAttribute("getUri");
 	String getUri = uri.toString();
+	
 %>
 <!DOCTYPE HTML>
 <!--
@@ -29,20 +30,23 @@
 var countClick=0;
 var writer_count=0;
 var content_count=0;
+var group=0;
 
 $(function(){
-	var team=$("input[name='team']").val();
-	getList(team);
+	var objDiv = document.getElementById("contentArea2"); 
+	if(objDiv.scrollTop != objDiv.scrollHeight){
+		objDiv.scrollTop = objDiv.scrollHeight;
+	}
+
+	group = $("input[name='team']").val();
+	getList(group);
 	var getUri=$("input[name='uri']").val();
 	$($("button")[0]).click(function(){ //등록
-		if(countClick==0&&getUri=="/product/detail"){
-			regist();
-			countClick++;
-		}else{
-			regist();
-		}
+		regist();
+		
 	});
 });
+
 
 function regist(){
 	var sender = $("input[name='sender']").val()
@@ -54,7 +58,7 @@ function regist(){
 			member_id:$("input[name='member_id']").val(),
 			sender:$("input[name='sender']").val(),
 			content:$("input[name='content']").val(),
-			team:$("input[name='team']").val()
+			team:group
 		},
 		success:function(data){
 			//리스트 보여주기
@@ -62,8 +66,10 @@ function regist(){
 			    this.reset();
 			  });
 			getList(data);
+			group=data;
 		}
 	});
+
 }
 
 function getConversationInfo(sender){
@@ -136,7 +142,7 @@ function getList(data){
 						<h3 style="margin-top:40px;"><%=product.getTitle() %></h3>
 						
 					</div>
-					<div class="box" style="scroll:auto">
+					<div class="box" id="contentArea2" style="overflow:auto">
 						<div id="contentArea"></div>
 					</div>
 					<div>
@@ -145,11 +151,15 @@ function getList(data){
 							<input type="hidden" name="team" value="0" />
 							<input type="hidden" name="member_id" value="<%=orderDetail.getMember().getMember_id()%>" />
 						<%}else{ %>
+							<%int find=0; %> 
 							<%for(int i=0; i<messageList.size(); i++){ %>
 								<%Message message=messageList.get(i); %>
 								<%if(message.getSender()!=member.getMember_id()){ %>
 									<input type="hidden" name="member_id" value="<%=message.getSender()%>" />
-								<%break;}%>
+									
+								<%find++; break;}%>
+							<%}if(find==0){ %> <!-- 보낸사람이 1명만 존재한다면 받는 사람 아이디는 상품을 등록한사람 -->
+							<input type="hidden" name="member_id" value="<%=orderDetail.getMember().getMember_id()%>" />
 							<%} %>
 							<%Message message=messageList.get(0);%>
 							<input type="hidden" name="team" value="<%=message.getTeam()%>"/>
