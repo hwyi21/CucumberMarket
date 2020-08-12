@@ -34,6 +34,7 @@ public class MemberService {
 		
 		String password = member.getPassword();
 		password = Encrypt.getEncrypt(password, salt);
+		
 		member.setPassword(password);
 		
 		return memberDAO.loginCheck(member);

@@ -30,8 +30,12 @@ public class MemberDAO {
 	}
 	
 	//난수 가져오기
-	public String selectSalt(String id){
-		return sessionTemplate.selectOne("Member.selectSalt", id);
+	public String selectSalt(String id) throws DMLException {
+		String salt = sessionTemplate.selectOne("Member.selectSalt", id);
+		if(salt==null) {
+			throw new DMLException("로그인 정보가 올바르지 않습니다.");
+		}
+		return salt;
 	}
 	
 	public Member select(int member_id) {

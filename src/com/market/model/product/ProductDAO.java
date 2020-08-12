@@ -25,13 +25,17 @@ public class ProductDAO {
 		return sessionTemplate.selectOne("Product.select", product_id); 
 	}
 	 
-
 	
 	public void insert(Product product) throws DMLException{
 		int result = sessionTemplate.insert("Product.insert", product);
 		if(result==0) {
 			throw new DMLException("상품이 등록되지 않았습니다");
 		}
+	}
+	
+	//조회수 업데이트
+	public void updateHit(int product_id) {
+		sessionTemplate.update("Product.updateHit", product_id);
 	}
 	
 	//상품 삭제

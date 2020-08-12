@@ -5,14 +5,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
+import com.market.exception.DMLException;
+
 public class Encrypt {
 	
-	public static String getEncrypt(String password, String salt) throws UnsupportedEncodingException  {
+	public static String getEncrypt(String password, String salt) throws UnsupportedEncodingException{
 		return getEncrypt(password, salt.getBytes("UTF-8"));
 	}
 	
 	//비밀번호 암호화
-	public static String getEncrypt(String password, byte[] salt) throws UnsupportedEncodingException {
+	public static String getEncrypt(String password, byte[] salt) throws UnsupportedEncodingException{
 		String result = "";
 		
 		byte[] a = password.getBytes("UTF-8");

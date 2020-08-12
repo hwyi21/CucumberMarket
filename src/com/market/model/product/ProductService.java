@@ -60,7 +60,7 @@ public class ProductService {
 		return orderDetailDAO.selectProduct(address);
 	}
 	
-	//상품 한건 조회
+	//상품 정보만 조회
 	public Product select(int product_id) {
 		return productDAO.select(product_id);
 	}
@@ -76,6 +76,7 @@ public class ProductService {
 	
 	//상품 상세페이지 조회
 	public OrderDetail selectDetail(int product_id) {
+		productDAO.updateHit(product_id);
 		return orderDetailDAO.select(product_id);
 	}
 	

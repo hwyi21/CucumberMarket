@@ -275,9 +275,9 @@ function bookMark(product){
 						<h2><%=product.getTitle()%></h2>
 						<%=product.getCategory().getCategory_name() %>
 						<%if(product.getRe_regdate()==null){%>
-						<%=product.getFirst_regdate() %>
-						<%}else{ %>끌올
-						<%=product.getRe_regdate() %>
+						<%=product.getFirst_regdate().substring(0, 10) %>
+						<%}else{ %> ● 끌올
+						<%=product.getRe_regdate().substring(0, 10)%>
 						<%} %>
 						<br><br>
 						<h4>가격 : <fmt:formatNumber value="<%=product.getPrice() %>" pattern="#,###"/> 원</h4>

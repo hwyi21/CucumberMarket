@@ -44,6 +44,12 @@
 		where product_id=#{product_id}
 	</update>
 
+	<!-- 조회수 업데이트 -->
+	<update id="updateHit" parameterType="int">
+		update product set hit=hit+1
+		where product_id=#{product_id}
+	</update>
+	
 	<delete id="delete" parameterType="int">
 		delete from product
 		where product_id=#{product_id}
