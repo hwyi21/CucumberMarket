@@ -44,7 +44,7 @@
 				<!-- Content -->
 				<section>
 					<header class="major">
-						<h2>구매내역</h2>
+						<h2>관심상품</h2>
 					</header>
 					<div class="posts">
 						<% int curPos = pager.getCurPos(); %>

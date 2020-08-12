@@ -8,9 +8,6 @@
 	OrderDetail orderDetail=(OrderDetail)request.getAttribute("orderDetail");
 	List<Message> messageList=(List)request.getAttribute("messageList");
 	List<ProductImage> productImageList=(List)request.getAttribute("productImageList");
-	Object uri = request.getAttribute("getUri");
-	String getUri = uri.toString();
-	
 %>
 <!DOCTYPE HTML>
 <!--
@@ -27,7 +24,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-var countClick=0;
 var writer_count=0;
 var content_count=0;
 var group=0;
@@ -40,16 +36,39 @@ $(function(){
 
 	group = $("input[name='team']").val();
 	getList(group);
-	var getUri=$("input[name='uri']").val();
 	$($("button")[0]).click(function(){ //등록
 		regist();
-		
 	});
+	
+	//엔터키 입력시 ajax로 데이터 보내기
+	$("#content").keypress(function (e) {
+	   if (e.keyCode == 13) {
+		   $.ajax({
+				"url":"/chat/send",
+				"type":"post",
+				"data":{
+					product_id:$("input[name='product_id']").val(),
+					member_id:$("input[name='member_id']").val(),
+					sender:$("input[name='sender']").val(),
+					content:$("input[name='content']").val(),
+					team:group
+				},
+				success:function(data){
+					//리스트 보여주기
+					$('form').each(function(){
+					    this.reset();
+					  });
+					getList(data);
+					group=data;
+				}
+			}); return false;
+	    }
+	});
+	
 });
 
 
 function regist(){
-	var sender = $("input[name='sender']").val()
 	$.ajax({
 		"url":"/chat/send",
 		"type":"post",
@@ -68,8 +87,7 @@ function regist(){
 			getList(data);
 			group=data;
 		}
-	});
-
+	}); return false;
 }
 
 function getConversationInfo(sender){
@@ -118,7 +136,7 @@ function getList(data){
 				
 			}
 		}
-	}); 
+	}); return false;
 }
 </script>
 </head>
@@ -134,7 +152,7 @@ function getList(data){
 				<%@ include file="/include/main_navi.jsp"%>
 				<!-- Content -->
 				<section>
-					<input type="hidden" name="product_id" value="<%=orderDetail.getProduct().getProduct_id()%>" />
+					
 					<div class="box" style="height:150px; overflow:hidden; display:flex;">
 						<%Product product=orderDetail.getProduct(); 
 						ProductImage productImage = productImageList.get(0);%>
@@ -146,6 +164,8 @@ function getList(data){
 						<div id="contentArea"></div>
 					</div>
 					<div>
+						<form>
+						<input type="hidden" name="product_id" value="<%=orderDetail.getProduct().getProduct_id()%>" />
 						<input type="hidden" name="sender" value="<%=member.getMember_id()%>" />
 						<%if(messageList==null){ %>
 							<input type="hidden" name="team" value="0" />
@@ -156,7 +176,6 @@ function getList(data){
 								<%Message message=messageList.get(i); %>
 								<%if(message.getSender()!=member.getMember_id()){ %>
 									<input type="hidden" name="member_id" value="<%=message.getSender()%>" />
-									
 								<%find++; break;}%>
 							<%}if(find==0){ %> <!-- 보낸사람이 1명만 존재한다면 받는 사람 아이디는 상품을 등록한사람 -->
 							<input type="hidden" name="member_id" value="<%=orderDetail.getMember().getMember_id()%>" />
@@ -164,9 +183,7 @@ function getList(data){
 							<%Message message=messageList.get(0);%>
 							<input type="hidden" name="team" value="<%=message.getTeam()%>"/>
 						<%}%>
-						<input type="hidden" name="uri" value="<%=getUri%>" />
-						<form>
-						<input style="width:90%; margin-bottom:10px; float:left" type="text" name="content" placeholder="메세지 내용을 입력하세요"/>
+						<input style="width:90%; margin-bottom:10px; float:left" type="text" id="content" name="content" placeholder="메세지 내용을 입력하세요"/>
 						</form>
 						<button style="float:right">보내기</button>
 					</div>

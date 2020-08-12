@@ -45,16 +45,10 @@
 							<h1>
 								오이마켓에 오신 것을 환영 합니다
 							</h1>
-							<p>A free and fully responsive site template</p>
 						</header>
-						<p>Aenean ornare velit lacus, ac varius enim ullamcorper eu.
-							Proin aliquam facilisis ante interdum congue. Integer mollis,
-							nisl amet convallis, porttitor magna ullamcorper, amet egestas
-							mauris. Ut magna finibus nisi nec lacinia. Nam maximus erat id
-							euismod egestas. Pellentesque sapien ac quam. Lorem ipsum dolor
-							sit nullam.</p>
+						<p>지금 바로 오이마켓에서 내 주변 이웃과 물건을 거래해보세요!</p>
 						<ul class="actions">
-							<li><a href="#" class="button big">Learn More</a></li>
+							<li><a href="/product/registForm" class="button big">물건 팔기</a></li>
 						</ul>
 					</div>
 					<span class="image object"><img src="images/1.jpg" alt="" />
@@ -69,10 +63,11 @@
 					<div class="features">
 						<%for(int i=0; i<categoryList.size();i++){ %>
 						<%Category category=categoryList.get(i); %>
-						<article onclick="location.href='/product/category?category_id=<%=category.getCategory_id()%>'">
+						<article>
 							<span class="icon" ><img class="category_icon" src="/images/icon/<%=category.getCategory_image()%>"></span>
 							<div class="content">
 								<h3><%=category.getCategory_name()%></h3>
+								<a href="/product/category?category_id=<%=category.getCategory_id()%>" class="button small">더 보기</a>
 							</div>
 						</article>
 						<%} %>

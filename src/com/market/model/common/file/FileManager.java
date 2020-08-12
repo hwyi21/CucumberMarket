@@ -64,7 +64,6 @@ public class FileManager {
 				listMap.put("filename", dest.getName()); 
 				list.add(listMap); 
 			}
-			
 		}
 		if(flag==false) {
 			throw new FileException("파일 저장에 실패하였습니다.");

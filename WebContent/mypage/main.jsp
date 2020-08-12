@@ -38,22 +38,25 @@
 						<h2>MyPage</h2>
 					</header>
 					<div class="features">
-						<article onclick="location.href='/mypage/sale'">
+						<article>
 							<span class="icon" ><img class="category_icon" src="/images/icon/money.png"></span>
 							<div class="content">
 								<h3>판매내역</h3>
+								<a href="/mypage/sale" class="button small">더 보기</a>
 							</div>
 						</article>
-						<article onclick="location.href='/mypage/buy'">
+						<article>
 							<span class="icon" ><img class="category_icon" src="/images/icon/buy.png"></span>
 							<div class="content">
 								<h3>구매내역</h3>
+								<a href="/mypage/buy" class="button small">더 보기</a>
 							</div>
 						</article>
-						<article onclick="location.href='/mypage/bookmark'">
+						<article>
 							<span class="icon" ><img class="category_icon" src="/images/icon/heart.png"></span>
 							<div class="content">
 								<h3>관심 상품</h3>
+								<a href="/mypage/bookmark" class="button small">더 보기</a>
 							</div>
 						</article>
 					</div>

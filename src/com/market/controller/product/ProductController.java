@@ -188,7 +188,7 @@ public class ProductController {
 		return "view/message";
 	}
 	
-	//상품 수정처리
+	//Order_detail 테이블 구매자 업데이트
 	@RequestMapping(value="/success", method = RequestMethod.GET)
 	public String updateBuyer(Model model, HttpServletRequest request, OrderDetail orderDetail, @RequestParam int product_id, @RequestParam int buyer_id) {
 		orderDetail = productService.selectDetail(product_id);

@@ -56,14 +56,6 @@ public class MessageController {
 	//대화 폼 불러오기
 	@RequestMapping(value="/chat", method=RequestMethod.GET)
 	public String messageForm(Model model, HttpServletRequest request, @RequestParam int product_id, @RequestParam int team) {
-		String referer = request.getHeader("referer");
-		String getUri = null;
-		try {
-			URI uri = new URI(referer);
-			getUri = uri.getPath();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
 		OrderDetail orderDetail = productService.selectDetail(product_id);
 		List productImageList = productImageService.selectAll(product_id);
 		if(team!=0) {
@@ -76,7 +68,6 @@ public class MessageController {
 		}
 		model.addAttribute("orderDetail", orderDetail);
 		model.addAttribute("productImageList", productImageList);
-		model.addAttribute("getUri", getUri);
 		return "message/messageForm";
 	}
 	
