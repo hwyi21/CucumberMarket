@@ -1,3 +1,4 @@
+<%@page import="com.market.model.common.date.CalculateDate"%>
 <%@page import="com.market.domain.BookmarkProduct"%>
 <%@page import="com.market.domain.OrderDetail"%>
 <%@page import="com.market.domain.ProductImage"%>
@@ -11,8 +12,11 @@
 	OrderDetail orderDetail = (OrderDetail)request.getAttribute("orderDetail");
 	BookmarkProduct bookmarkProduct = (BookmarkProduct)request.getAttribute("bookmarkProduct");
 	List<ProductImage> productImageList = (List) request.getAttribute("productImageList");
+	Object obj = request.getAttribute("count"); //상품별 관심상품 등록 갯수
+	int count = Integer.parseInt(obj.toString());
 	Object uri = request.getAttribute("getUri");
 	String getUri = uri.toString();
+	
 	String flag = "true";
 	if(bookmarkProduct==null){
 		flag="false";
@@ -274,14 +278,19 @@ function bookMark(product){
 						<p>
 						<h2><%=product.getTitle()%></h2>
 						<%=product.getCategory().getCategory_name() %>
-						<%if(product.getRe_regdate()==null){%>
-						<%=product.getFirst_regdate().substring(0, 10) %>
-						<%}else{ %> ● 끌올
-						<%=product.getRe_regdate().substring(0, 10)%>
+						<%if(product.getRe_regdate()!=null){ 
+						String result = CalculateDate.cal(product.getRe_regdate()); 
+						%>
+						 ● 끌올 <%=result%>
+						<% }else{ 
+						String result = CalculateDate.cal(product.getFirst_regdate()); 
+						%>
+						 ● <%=result %>
 						<%} %>
 						<br><br>
 						<h4>가격 : <fmt:formatNumber value="<%=product.getPrice() %>" pattern="#,###"/> 원</h4>
 						<h4><%=product.getContent() %></h4><br>
+						조회수<%=product.getHit() %> <%if(count!=0){ %>/ 관심 <%=count %><%} %>
 						</p>
 					</div>
 					</form>

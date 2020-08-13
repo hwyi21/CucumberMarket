@@ -135,6 +135,8 @@ public class ProductController {
 		OrderDetail orderDetail = productService.selectDetail(product_id);
 		Product product = orderDetail.getProduct();
 		Member saler = orderDetail.getMember();
+		//상품별 관심상품 등록 갯수 조회
+		int count = myPageService.countBookmark(product_id);
 		List productImageList = productImageService.selectAll(product_id);
 		if(member!=null) {
 			int member_id=member.getMember_id();
@@ -147,6 +149,7 @@ public class ProductController {
 		model.addAttribute("product", product);
 		model.addAttribute("orderDetail", orderDetail);
 		model.addAttribute("saler", saler);
+		model.addAttribute("count", count);
 		model.addAttribute("getUri", getUri);
 		
 		model.addAttribute("productImageList", productImageList);

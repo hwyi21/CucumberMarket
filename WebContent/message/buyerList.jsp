@@ -93,6 +93,12 @@ function messageForm(product_id, member){
 	location.href="/success?product_id="+product_id+"&buyer_id="+member;
 }
 
+//구매자 다음에 선택
+function success(){
+	var product_id=$($("input[name='product_id']")[0]).val();
+	alert("거래가 완료되었습니다.");
+	location.href="/product/detail?product_id="+product_id;
+}
 </script>
 </head>
 <body class="is-preload">
@@ -109,7 +115,8 @@ function messageForm(product_id, member){
 				<!-- Section -->
 				<section>
 					<header class="major">
-						<h2>거래 상대를 골라주세요</h2> 
+						<h2>거래 상대를 골라주세요</h2>
+						<a onclick="success()" class="button primary fit" style="width:28%">다음에 선택하기</a> 
 					</header>
 					<div class="features" id="features">
 						<input type="hidden" id="messageList" value="<%=messageInfo.size()%>">

@@ -22,6 +22,11 @@
 		where member_id=#{member.member_id} and product_id=#{product.product_id}
 	</select>
 	
+	<!-- 상품별 관심상품 등록 사항 -->
+	<select id="countBookmark" parameterType="int" resultType="int">
+		select count(product_id) from bookmark_product where product_id=#{product.product_id}
+	</select>
+	
 	<insert id="insert" parameterType="BookmarkProduct">
 		insert into bookmark_product(bookmark_product_id, member_id, product_id)
 		values(seq_bookmark_product.nextval, #{member.member_id}, #{product.product_id})

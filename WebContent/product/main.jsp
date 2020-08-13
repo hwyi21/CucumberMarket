@@ -1,3 +1,4 @@
+<%@page import="com.market.model.common.date.CalculateDate"%>
 <%@page import="com.market.domain.State"%>
 <%@page import="com.market.controller.common.Pager"%>
 <%@page import="com.market.domain.ProductImage"%>
@@ -63,8 +64,16 @@
 							<a class="image"><img src="/data/<%=productImage.getFilename()%>"/></a>
 							<h3><%=product.getTitle()%></h3>
 							<p>
-								<%=saler.getLocate()%> 
-								<%if(product.getRe_regdate()!=null){%>끌올<%} %>
+								<%=saler.getLocate()%><br>
+								<%if(product.getRe_regdate()!=null){ 
+								String result = CalculateDate.cal(product.getRe_regdate()); 
+								%>
+								끌올 <%=result%>
+								<% }else{ 
+								String result = CalculateDate.cal(product.getFirst_regdate()); 
+								%>
+								<%=result %>
+								<%} %>
 								<%if(state.getState_id()!=1){%><h5 style="color:green; font-weight:bold"><%=state.getState_title()%></h5><%}%>
 								<h4>가격 : <fmt:formatNumber value="<%=product.getPrice() %>" pattern="#,###"/> 원</h4>
 							</p>

@@ -30,6 +30,11 @@ public class MyPageDAO {
 		return sessionTemplate.selectList("BookmarkProduct.selectAll", member_id);
 	}
 	
+	//상품별 관심상품 등록 갯수 조회
+	public int countBookmark(int product_id) {
+		return sessionTemplate.selectOne("BookmarkProduct.countBookmark", product_id);
+	}
+	
 	//관심상품 등록
 	public void insertBookmarkProduct(BookmarkProduct bookmarkProduct) throws DMLException{
 		int result = sessionTemplate.insert("BookmarkProduct.insert", bookmarkProduct);

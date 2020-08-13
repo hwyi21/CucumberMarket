@@ -43,4 +43,9 @@ public class MyPageService {
 	public List selectMyBookmark(int member_id) {
 		return myPageDAO.selectMyBookmark(member_id);
 	}
+	
+	//상품별 관심상품 등록 갯수 조회
+	public int countBookmark(int product_id) {
+		return myPageDAO.countBookmark(product_id);
+	}
 }
