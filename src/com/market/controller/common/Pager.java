@@ -11,7 +11,7 @@ public class Pager {
 	private List list;
 	private int currentPage=1; //현재 페이지
 	private int totalRecord; //총 레코드 수
-	private int pageSize=10; //페이지 당 보여질 레코드 수
+	private int pageSize=9; //페이지 당 보여질 레코드 수
 	private int totalPage; //총 페이지 수
 	private int blockSize=10; //블럭당 보여질 페이지 수
 	private int firstPage; //블럭당 시작 페이지
@@ -22,6 +22,8 @@ public class Pager {
 	public void init(List list, HttpServletRequest request) {
 		if(request.getParameter("currentPage")!=null) {
 			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		}else if(request.getParameter("currentPage")==null) {
+			currentPage = 1;
 		}
 		totalRecord = list.size();
 		totalPage = (int)Math.ceil((float)totalRecord/pageSize);

@@ -39,16 +39,19 @@ public class ProductService {
 */
 	public void insert(Product product, ProductImage productImage, OrderDetail orderDetail, HttpServletRequest request, String realPath)
 			throws DMLException, FileException {
-		productDAO.insert(product);
+		int result = productDAO.insert(product);
 		productImage.setProduct(product);
 		orderDetail.setProduct(product);
-		List<Map<String,Object>> list = FileManager.saveFile(request, realPath);
-		for (int i = 0; i < list.size(); i++) {
-			String original_filename = (String) list.get(i).get("original_filename");
-			String filename = (String) list.get(i).get("filename");
-			productImage.setOriginal_filename(original_filename);
-			productImage.setFilename(filename);
-			productImageDAO.insert(productImage);
+		
+		if(result!=0) {
+			List<Map<String,Object>> list = FileManager.saveFile(request, realPath);
+			for (int i = 0; i < list.size(); i++) {
+				String original_filename = (String) list.get(i).get("original_filename");
+				String filename = (String) list.get(i).get("filename");
+				productImage.setOriginal_filename(original_filename);
+				productImage.setFilename(filename);
+				productImageDAO.insert(productImage);
+			}
 		}
 		orderDetailDAO.insert(orderDetail);
 	}
@@ -82,7 +85,7 @@ public class ProductService {
 	
 	//상품 삭제 및 판매자가 상품 삭제 시 Order_Detail 테이블의 판매자 정보 및 상품 정보 업데이트 / 구매자가 없는 경우 order_detil 테이블의 내역 삭제
 	public void delete(int product_id, HttpServletRequest request) throws DMLException{
-		productDAO.delete(product_id);
+		int result = productDAO.delete(product_id);
 		OrderDetail orderDetail=orderDetailDAO.select(product_id);
 		int buyer_id=orderDetail.getBuyer_id();
 		if(buyer_id==0) {
@@ -91,11 +94,13 @@ public class ProductService {
 			orderDetailDAO.update(product_id);
 		}
 		List list = productImageDAO.selectAll(product_id);
-		for(int i=0; i<list.size();i++) {
-			ProductImage productImage = (ProductImage) list.get(i);
-			String filename = productImage.getFilename();
-			String realPath=request.getServletContext().getRealPath("/data/"+filename);
-			FileManager.removeFile(realPath);
+		if(result!=0) {
+			for(int i=0; i<list.size();i++) {
+				ProductImage productImage = (ProductImage) list.get(i);
+				String filename = productImage.getFilename();
+				String realPath=request.getServletContext().getRealPath("/data/"+filename);
+				FileManager.removeFile(realPath);
+			}
 		}
 		productImageDAO.delete(product_id);
 	}
@@ -105,7 +110,7 @@ public class ProductService {
 	}
 	
 	public void update(Product product, ProductImage productImage, HttpServletRequest request)throws DMLException, FileException {
-		productDAO.update(product);
+		int result = productDAO.update(product);
 		productImage.setProduct(product);
 		List list = productImageDAO.selectAll(product.getProduct_id());
 		String realPath=request.getServletContext().getRealPath("/data/");
@@ -125,11 +130,13 @@ public class ProductService {
 					if(ori.isEmpty()==false) { //원래 있던 파일이 삭제되고 다른 이미지가 들어간것으로 간주
 						ProductImage img = (ProductImage) list.get(i);
 						productImageDAO.deleteImg(img.getImage_id());
-						List<Map<String,Object>> save = FileManager.saveOneFile(multipartFile, ori, realPath);
-						String original_filename = (String) save.get(0).get("original_filename");
-						String filename = (String) save.get(0).get("filename");
-						productImage.setOriginal_filename(original_filename);
-						productImage.setFilename(filename);
+						if(result!=0) {
+							List<Map<String,Object>> save = FileManager.saveOneFile(multipartFile, ori, realPath);
+							String original_filename = (String) save.get(0).get("original_filename");
+							String filename = (String) save.get(0).get("filename");
+							productImage.setOriginal_filename(original_filename);
+							productImage.setFilename(filename);
+						}
 						productImageDAO.insert(productImage);
 					}
 				}else if(i!=j){//j와 while문을 돈 횟수가 같지 않다
@@ -145,20 +152,24 @@ public class ProductService {
 					}else { //새롭게 등록된 파일
 						ProductImage img = (ProductImage) list.get(i);
 						productImageDAO.deleteImg(img.getImage_id());
-						List<Map<String,Object>> save = FileManager.saveOneFile(multipartFile, ori, realPath);
-						String original_filename = (String) save.get(0).get("original_filename");
-						String filename = (String) save.get(0).get("filename");
-						productImage.setOriginal_filename(original_filename);
-						productImage.setFilename(filename);
+						if(result!=0) {
+							List<Map<String,Object>> save = FileManager.saveOneFile(multipartFile, ori, realPath);
+							String original_filename = (String) save.get(0).get("original_filename");
+							String filename = (String) save.get(0).get("filename");
+							productImage.setOriginal_filename(original_filename);
+							productImage.setFilename(filename);
+						}
 						productImageDAO.insert(productImage);
 					}
 				}
 			}else if(imageSize<=i) { // 새롭게 등록한 이미지 파일 insert
-				List<Map<String,Object>> save = FileManager.saveOneFile(multipartFile, ori, realPath);
-				String original_filename = (String) save.get(0).get("original_filename");
-				String filename = (String) save.get(0).get("filename");
-				productImage.setOriginal_filename(original_filename);
-				productImage.setFilename(filename);
+				if(result!=0) {
+					List<Map<String,Object>> save = FileManager.saveOneFile(multipartFile, ori, realPath);
+					String original_filename = (String) save.get(0).get("original_filename");
+					String filename = (String) save.get(0).get("filename");
+					productImage.setOriginal_filename(original_filename);
+					productImage.setFilename(filename);
+				}
 				productImageDAO.insert(productImage);
 			}
 			i++;
@@ -171,11 +182,13 @@ public class ProductService {
 		}
 		
 		//이미지 파일 삭제
-		Map<String, String[]> map = request.getParameterMap();
-		String[] obj = map.get("del_file");
-		if(obj!=null) {
-			for(int j=0; j<obj.length; j++) {
-				FileManager.removeFile(realPath+obj[j]);
+		if(result!=0) {
+			Map<String, String[]> map = request.getParameterMap();
+			String[] obj = map.get("del_file");
+			if(obj!=null) {
+				for(int j=0; j<obj.length; j++) {
+					FileManager.removeFile(realPath+obj[j]);
+				}
 			}
 		}
 		

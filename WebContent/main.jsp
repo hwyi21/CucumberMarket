@@ -67,7 +67,7 @@
 							<span class="icon" ><img class="category_icon" src="/images/icon/<%=category.getCategory_image()%>"></span>
 							<div class="content">
 								<h3><%=category.getCategory_name()%></h3>
-								<a href="/product/category?category_id=<%=category.getCategory_id()%>" class="button small">더 보기</a>
+								<a href="/product/category?category_id=<%=category.getCategory_id()%>&category_name=<%=category.getCategory_name()%>" class="button small">더 보기</a>
 							</div>
 						</article>
 						<%} %>

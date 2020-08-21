@@ -90,19 +90,19 @@
 						<%int lastPage=pager.getLastPage(); %>
 						<%int totalPage=pager.getTotalPage(); %>
 						<%int currentPage=pager.getCurrentPage(); %>
-						<%if(firstPage-1 > 1){%>
-						<li><a href="/mypage/bookmarkList?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
+						<%if(firstPage-1 >= 1){%>
+						<li><a href="/mypage/bookmark?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
 				        <%}else{%>
 				        <li><span class="button disabled">Prev</span></li>
 				        <%}%>
 						<% for(int i=firstPage; i<=lastPage; i++){ %>
         				<%if(i>totalPage) break; %>
-        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/mypage/bookmarkList?currentPage=<%=i%>"><%= i %></a></li>
+        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/mypage/bookmark?currentPage=<%=i%>"><%= i %></a></li>
         				<% } %>
 						 <%if((lastPage+1)>totalPage) {%>
 				        <li><span class="button disabled">Next</span></li>
 				        <%}else{%>
-				        <li><a href="/mypage/bookmarkList?currentPage=<%=lastPage+1%>" class="button">Next</a></li>
+				        <li><a href="/mypage/bookmark?currentPage=<%=lastPage+1%>" class="button">Next</a></li>
 				        <%}%>
 					</ul>
 				</section>

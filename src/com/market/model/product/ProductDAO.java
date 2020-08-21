@@ -26,11 +26,12 @@ public class ProductDAO {
 	}
 	 
 	
-	public void insert(Product product) throws DMLException{
+	public int insert(Product product) throws DMLException{
 		int result = sessionTemplate.insert("Product.insert", product);
 		if(result==0) {
 			throw new DMLException("상품이 등록되지 않았습니다");
 		}
+		return result;
 	}
 	
 	//조회수 업데이트
@@ -39,19 +40,21 @@ public class ProductDAO {
 	}
 	
 	//상품 삭제
-	public void delete(int product_id) throws DMLException{
+	public int delete(int product_id) throws DMLException{
 		int result = sessionTemplate.delete("Product.delete", product_id);
 		if(result==0) {
 			throw new DMLException("상품이 삭제 되지 않았습니다.");
 		}
+		return result;
 	}
 	
 	//상품 업데이트
-	public void update(Product product) throws DMLException{
+	public int update(Product product) throws DMLException{
 		int result = sessionTemplate.delete("Product.update", product);
 		if(result==0) {
 			throw new DMLException("상품이 수정 되지 않았습니다.");
 		}
+		return result;
 	}
 	
 	

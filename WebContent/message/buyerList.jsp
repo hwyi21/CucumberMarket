@@ -4,6 +4,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<Message> messageInfo = (List)request.getAttribute("messageInfo");
+	int product_id = (int) request.getAttribute("product_id");
 	Pager  pager = (Pager) request.getAttribute("pager");
 %>
 <!DOCTYPE HTML>
@@ -95,9 +96,8 @@ function messageForm(product_id, member){
 
 //구매자 다음에 선택
 function success(){
-	var product_id=$($("input[name='product_id']")[0]).val();
 	alert("거래가 완료되었습니다.");
-	location.href="/product/detail?product_id="+product_id;
+	location.href="/product/detail?product_id="+<%=product_id%>;
 }
 </script>
 </head>
@@ -126,7 +126,7 @@ function success(){
 						<% if (num < 1) break; %>
 						<%Message message=messageInfo.get(curPos++); %>
 						<input type="hidden" value="<%=num--%>" /> 
-						<input type="hidden" id="product_id" name="product_id" value="<%=message.getProduct().getProduct_id()%>"/>
+						<input type="hidden" id="product_id" name="product_id" value="<%=product_id%>"/>
 						<input type="hidden" id="team" name="team" value="<%=message.getTeam()%>"/>
 						<input type="hidden" id="sender" name="sender" value="<%=message.getSender()%>">
 						<input type="hidden" id="member_id" name="member_id" value="<%=member.getMember_id()%>">
@@ -140,19 +140,21 @@ function success(){
 						<%int lastPage=pager.getLastPage(); %>
 						<%int totalPage=pager.getTotalPage(); %>
 						<%int currentPage=pager.getCurrentPage(); %>
-						<%if(firstPage-1 > 1){%>
-						<li><a href="/message/buyerList?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
+						<%if(messageInfo.size()!=0){ %>
+						<%if(firstPage-1 >= 1){%>
+						<li><a href="/choose/buyer?product_id=<%=product_id%>&currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
 				        <%}else{%>
 				        <li><span class="button disabled">Prev</span></li>
 				        <%}%>
 						<% for(int i=firstPage; i<=lastPage; i++){ %>
         				<%if(i>totalPage) break; %>
-        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/message/buyerList?currentPage=<%=i%>"><%= i %></a></li>
+        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/choose/buyer?product_id=<%=product_id%>&currentPage=<%=i%>"><%= i %></a></li>
         				<% } %>
 						 <%if((lastPage+1)>totalPage) {%>
 				        <li><span class="button disabled">Next</span></li>
 				        <%}else{%>
-				        <li><a href="/message/buyerList?currentPage=<%=lastPage+1%>" class="button">Next</a></li>
+				        <li><a href="/choose/buyer?product_id=<%=product_id%>&currentPage=<%=lastPage+1%>" class="button">Next</a></li>
+				        <%}%>
 				        <%}%>
 					</ul>
 				</section>

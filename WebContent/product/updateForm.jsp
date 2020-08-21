@@ -5,6 +5,8 @@
 <%
 	Product product = (Product)request.getAttribute("product");
 	List<ProductImage> productImageList = (List) request.getAttribute("productImageList");
+	Object uri = request.getAttribute("getUri");
+	String getUri = uri.toString();
 
 %>
 <!DOCTYPE HTML>
@@ -193,7 +195,11 @@ function update(){
 							<ul class="actions">
 								<li><input type="submit" value="상품 수정하기" class="primary" onclick="update()"/></li>
 								<li><input type="reset" value="Reset" /></li>
+								<%if(getUri.equals("/product")){%>
 								<li><input type="button" value="목록으로" onclick="location.href='/product'" /></li>
+								<%}else{ %>
+								<li><input type="button" value="목록으로" onclick="location.href='/mypage/sale'" /></li>
+								<%} %>
 							</ul>
 						</div>
 					</div>

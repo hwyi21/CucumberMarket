@@ -98,10 +98,10 @@ public class ProductController {
 	public String selectCategoryProduct(Model model, HttpServletRequest request, @RequestParam int category_id) {
 		List productList = productService.selectProductByCategory(category_id);
 		List productImageList = new ArrayList();
+		String category = request.getParameter("category_name");
 		for(int i=0; i<productList.size();i++) {
 			OrderDetail product = (OrderDetail) productList.get(i);
 			int product_id=product.getProduct().getProduct_id();
-			
 			if(product_id==0) {
 				continue;
 			}else {
@@ -113,6 +113,8 @@ public class ProductController {
 		pager.init(productList, request);
 		model.addAttribute("productList", productList);
 		model.addAttribute("productImageList", productImageList);
+		model.addAttribute("category", category);
+		model.addAttribute("category_id", category_id);
 		model.addAttribute("pager", pager);
 		
 		return "product/categoryMain";
@@ -139,7 +141,6 @@ public class ProductController {
 		int count = myPageService.countBookmark(product_id);
 		List productImageList = productImageService.selectAll(product_id);
 		if(member!=null) {
-			int member_id=member.getMember_id();
 			map.put("member", member);
 			map.put("product", product);
 			BookmarkProduct bookmarkProduct = myPageService.select(map);
@@ -174,8 +175,18 @@ public class ProductController {
 		Product product = orderDetail.getProduct();
 		List productImageList = productImageService.selectAll(product_id);
 		
+		String referer = request.getHeader("referer");
+		String getUri = null;
+		try {
+			URI uri = new URI(referer);
+			getUri = uri.getPath();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
 		model.addAttribute("product", product);
 		model.addAttribute("productImageList", productImageList);
+		model.addAttribute("getUri", getUri);
 		return "product/updateForm";
 	}
 	

@@ -38,7 +38,7 @@ public class MypageController {
 	private Pager pager;
 	
 	@RequestMapping(value="/mypage/main", method=RequestMethod.GET)
-	public String test(HttpServletRequest request) {
+	public String mypage(HttpServletRequest request) {
 		return "mypage/main";
 	}
 	

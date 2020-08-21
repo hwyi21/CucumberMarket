@@ -11,6 +11,8 @@
 	List<OrderDetail> productList = (List) request.getAttribute("productList");
 	//List<OrderDetail> orderDetailList = (List) request.getAttribute("orderDetailList");
 	List<ProductImage> productImageList = (List) request.getAttribute("productImageList");
+	int category_id = (int) request.getAttribute("category_id");
+	String category= (String) request.getAttribute("category");
 	Pager pager = (Pager) request.getAttribute("pager");
 %>
 <!DOCTYPE HTML>
@@ -45,6 +47,9 @@
 				<%@ include file="/include/main_navi.jsp"%>
 				<!-- Content -->
 				<section>
+					<header class="major">
+						<h2><%=category %></h2>
+					</header>
 					
 					<div class="posts">
 						<% int curPos = pager.getCurPos(); %>
@@ -97,19 +102,20 @@
 						<%int lastPage=pager.getLastPage(); %>
 						<%int totalPage=pager.getTotalPage(); %>
 						<%int currentPage=pager.getCurrentPage(); %>
-						<%if(firstPage-1 > 1){%>
-						<li><a href="/product/categoryMain?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
+						
+						<%if(firstPage-1 >= 1){%>
+						<li><a href="/product/category?category_id=<%=category_id%>&category_name=<%=category%>&currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
 				        <%}else{%>
 				        <li><span class="button disabled">Prev</span></li>
 				        <%}%>
 						<% for(int i=firstPage; i<=lastPage; i++){ %>
         				<%if(i>totalPage) break; %>
-        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/product/categoryMain?currentPage=<%=i%>"><%= i %></a></li>
+        				<li><a <% if(currentPage==i){%>class="page active"<%}else{%>class="page"<%}%> href="/product/category?category_id=<%=category_id%>&category_name=<%=category%>&currentPage=<%=i%>"><%= i %></a></li>
         				<% } %>
 						 <%if((lastPage+1)>totalPage) {%>
 				        <li><span class="button disabled">Next</span></li>
 				        <%}else{%>
-				        <li><a href="/product/categoryMain?currentPage=<%=lastPage+1%>" class="button">Next</a></li>
+				        <li><a href="/product/category?category_id=<%=category_id%>&category_name=<%=category%>&currentPage=<%=lastPage+1%>" class="button">Next</a></li>
 				        <%}%>
 					</ul>
 				</section>

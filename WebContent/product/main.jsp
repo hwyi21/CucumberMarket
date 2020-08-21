@@ -97,7 +97,7 @@
 						<%int lastPage=pager.getLastPage(); %>
 						<%int totalPage=pager.getTotalPage(); %>
 						<%int currentPage=pager.getCurrentPage(); %>
-						<%if(firstPage-1 > 1){%>
+						<%if(firstPage-1 >= 1){%>
 						<li><a href="/product?currentPage=<%=firstPage-1 %>" class="button">Prev</a></li>
 				        <%}else{%>
 				        <li><span class="button disabled">Prev</span></li>

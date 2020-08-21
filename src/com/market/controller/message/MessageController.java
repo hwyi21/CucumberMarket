@@ -157,6 +157,7 @@ public class MessageController {
 		}
 		pager.init(messageInfo, request);
 		model.addAttribute("messageInfo", messageInfo);
+		model.addAttribute("product_id", product_id);
 		model.addAttribute("pager", pager);
 		return "message/buyerList";
 	}
